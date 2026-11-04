@@ -52,7 +52,7 @@ export function SolarSystemExplorer() {
       }`}
     >
       {/* Top Futuristic Header Bar */}
-      <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-5 py-3.5 border-b border-[var(--border)]/70 bg-[#060D1A]/80 backdrop-blur-md pointer-events-auto">
+      <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-5 py-3.5 border-b border-[var(--border)] bg-[var(--surface-elevated)]/90 backdrop-blur-md pointer-events-auto">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-xl border border-cyan-400/50 bg-cyan-950/60 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.3)]">
             <Orbit className="w-4 h-4 animate-spin-slow" />

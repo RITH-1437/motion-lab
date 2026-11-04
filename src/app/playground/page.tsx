@@ -380,7 +380,7 @@ function PlaygroundContent() {
                       className={`px-3 py-1 rounded text-xs transition-colors ${
                         config.wireframe
                           ? "bg-accent-violet text-white font-bold"
-                          : "bg-white/10 text-slate-400 hover:text-white"
+                          : "bg-[var(--surface-elevated)] text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)]"
                       }`}
                     >
                       {config.wireframe ? "ENABLED" : "DISABLED"}

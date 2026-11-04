@@ -151,7 +151,7 @@ export default function AboutPage() {
 
         <Link
           href="/explore"
-          className="font-mono text-xs uppercase tracking-wider text-slate-400 hover:text-white"
+          className="font-mono text-xs uppercase tracking-wider text-[var(--muted)] hover:text-accent-cyan transition-colors"
         >
           View Experiments Gallery →
         </Link>

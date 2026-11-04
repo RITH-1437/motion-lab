@@ -100,7 +100,7 @@ export function PlanetInfoPanel({ className = "" }: PlanetInfoPanelProps) {
               <button
                 type="button"
                 onClick={() => selectPlanet(currentPlanet.id)}
-                className="px-2.5 py-1 text-xs font-mono rounded-lg border border-cyan-400 bg-cyan-950/80 text-cyan-300 hover:bg-cyan-900/80 transition-colors shadow-[0_0_10px_rgba(34,211,238,0.2)]"
+                className="px-2.5 py-1 text-xs font-mono rounded-lg border border-cyan-400 bg-cyan-600 text-white dark:bg-cyan-950/80 dark:text-cyan-300 hover:bg-cyan-500 dark:hover:bg-cyan-900/80 transition-colors shadow-[0_0_10px_rgba(34,211,238,0.2)]"
               >
                 Focus Target
               </button>
@@ -108,9 +108,9 @@ export function PlanetInfoPanel({ className = "" }: PlanetInfoPanelProps) {
 
             {/* Earth Explorer Special Features Panel */}
             {isEarth && (
-              <div className="p-3 rounded-xl border border-cyan-500/40 bg-cyan-950/20 space-y-3">
-                <div className="flex items-center gap-2 text-cyan-300 text-xs font-bold font-mono tracking-wider">
-                  <Globe className="w-4 h-4 text-cyan-400" />
+              <div className="p-3 rounded-xl border border-cyan-500/40 bg-cyan-500/10 dark:bg-cyan-950/20 space-y-3">
+                <div className="flex items-center gap-2 text-cyan-700 dark:text-cyan-300 text-xs font-bold font-mono tracking-wider">
+                  <Globe className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
                   <span>EARTH EXPLORER CONTROLS</span>
                 </div>
                 <p className="text-[11px] text-[var(--muted)]">
@@ -122,7 +122,7 @@ export function PlanetInfoPanel({ className = "" }: PlanetInfoPanelProps) {
                     onClick={() => updateConfig({ showClouds: !showClouds })}
                     className={`px-2 py-1.5 rounded-lg border text-[11px] font-mono font-medium transition-all ${
                       showClouds
-                        ? "border-cyan-400 bg-cyan-950/90 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]"
+                        ? "border-cyan-400 bg-cyan-600 text-white dark:bg-cyan-950/90 dark:text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]"
                         : "border-[var(--border)] bg-[var(--card)] text-[var(--muted)] hover:border-cyan-400"
                     }`}
                   >
@@ -133,7 +133,7 @@ export function PlanetInfoPanel({ className = "" }: PlanetInfoPanelProps) {
                     onClick={() => updateConfig({ showAtmosphere: !showAtmosphere })}
                     className={`px-2 py-1.5 rounded-lg border text-[11px] font-mono font-medium transition-all ${
                       showAtmosphere
-                        ? "border-cyan-400 bg-cyan-950/90 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]"
+                        ? "border-cyan-400 bg-cyan-600 text-white dark:bg-cyan-950/90 dark:text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]"
                         : "border-[var(--border)] bg-[var(--card)] text-[var(--muted)] hover:border-cyan-400"
                     }`}
                   >
@@ -144,7 +144,7 @@ export function PlanetInfoPanel({ className = "" }: PlanetInfoPanelProps) {
                     onClick={() => updateConfig({ showMoons: !showMoons })}
                     className={`px-2 py-1.5 rounded-lg border text-[11px] font-mono font-medium transition-all ${
                       showMoons
-                        ? "border-cyan-400 bg-cyan-950/90 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]"
+                        ? "border-cyan-400 bg-cyan-600 text-white dark:bg-cyan-950/90 dark:text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]"
                         : "border-[var(--border)] bg-[var(--card)] text-[var(--muted)] hover:border-cyan-400"
                     }`}
                   >
@@ -268,7 +268,7 @@ export function PlanetInfoPanel({ className = "" }: PlanetInfoPanelProps) {
             <button
               type="button"
               onClick={() => selectPlanet("earth")}
-              className="flex-1 py-2 text-xs font-mono font-semibold rounded-xl border border-cyan-400 bg-cyan-950/80 text-cyan-300 hover:bg-cyan-900/80 transition-colors shadow-[0_0_10px_rgba(34,211,238,0.2)]"
+              className="flex-1 py-2 text-xs font-mono font-semibold rounded-xl border border-cyan-400 bg-cyan-600 text-white dark:bg-cyan-950/80 dark:text-cyan-300 hover:bg-cyan-500 dark:hover:bg-cyan-900/80 transition-colors shadow-[0_0_10px_rgba(34,211,238,0.2)]"
             >
               Explore Earth
             </button>

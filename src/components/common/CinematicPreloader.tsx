@@ -172,8 +172,10 @@ export function CinematicPreloader() {
   const triggerCinematicReveal = useCallback(() => {
     if (timelineRef.current) timelineRef.current.kill();
 
-    // Lock body during reveal sequence
-    document.body.style.overflow = "hidden";
+    // Immediately release pointer events so the website is interactive
+    if (containerRef.current) {
+      containerRef.current.style.pointerEvents = "none";
+    }
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -310,7 +312,10 @@ export function CinematicPreloader() {
 
     return () => {
       tween.kill();
-      window.removeEventListener("load", checkReadiness);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("load", checkReadiness);
+      }
+      document.body.style.overflow = "";
     };
   }, [shouldPlay, isComplete, triggerCinematicReveal]);
 

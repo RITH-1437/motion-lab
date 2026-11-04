@@ -248,7 +248,7 @@ export function Mesh({ speed = 1.0 }) {
                 <button
                   onClick={() => updateConfig({ wireframe: !config.wireframe })}
                   className={`px-2 py-0.5 rounded text-[10px] ${
-                    config.wireframe ? "bg-accent-pink text-white font-bold" : "bg-white/10 text-[var(--muted)]"
+                    config.wireframe ? "bg-accent-pink text-white font-bold" : "bg-[var(--surface-elevated)] text-[var(--muted)] border border-[var(--border)]"
                   }`}
                 >
                   {config.wireframe ? "ON" : "OFF"}

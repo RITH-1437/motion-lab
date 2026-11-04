@@ -79,7 +79,7 @@ export default function ExplorePage() {
             className={`px-3.5 py-1.5 rounded-lg text-xs font-mono uppercase tracking-wider transition-all ${
               selectedCategory === "all"
                 ? "bg-accent-cyan text-canvas-dark font-bold shadow-glow-cyan"
-                : "glass-button text-slate-400 hover:text-white"
+                : "glass-button text-[var(--muted)] hover:text-[var(--foreground)]"
             }`}
           >
             All Labs
@@ -91,7 +91,7 @@ export default function ExplorePage() {
               className={`px-3.5 py-1.5 rounded-lg text-xs font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 ${
                 selectedCategory === cat.id
                   ? "bg-accent-violet text-white font-bold shadow-glow"
-                  : "glass-button text-slate-400 hover:text-white"
+                  : "glass-button text-[var(--muted)] hover:text-[var(--foreground)]"
               }`}
             >
               <span>{cat.label}</span>
@@ -124,7 +124,7 @@ export default function ExplorePage() {
                 </div>
                 <button
                   onClick={() => setPreviewPresetId(preset.id)}
-                  className="absolute bottom-2.5 right-2.5 p-1.5 rounded-lg bg-black/60 text-slate-300 hover:text-white backdrop-blur-md border border-white/10 text-xs font-mono flex items-center gap-1 transition-colors"
+                  className="absolute bottom-2.5 right-2.5 p-1.5 rounded-lg bg-[var(--surface-elevated)]/90 text-[var(--foreground)] hover:text-accent-cyan backdrop-blur-md border border-[var(--border)] text-xs font-mono flex items-center gap-1 transition-colors"
                 >
                   <Eye className="w-3.5 h-3.5 text-accent-cyan" />
                   <span>Preview</span>
@@ -170,7 +170,7 @@ export default function ExplorePage() {
 
               <Link
                 href={`/editor?preset=${preset.id}`}
-                className="py-2 px-3 rounded-lg font-mono text-xs uppercase tracking-wider glass-button text-slate-300 hover:text-white flex items-center gap-1.5"
+                className="py-2 px-3 rounded-lg font-mono text-xs uppercase tracking-wider glass-button text-[var(--foreground)] hover:text-accent-pink flex items-center gap-1.5"
               >
                 <Code2 className="w-3.5 h-3.5 text-accent-pink" />
                 <span>Editor</span>

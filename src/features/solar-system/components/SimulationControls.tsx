@@ -189,7 +189,7 @@ export function SimulationControls({ className = "" }: SimulationControlsProps) 
               onClick={() => setPlaying(!isPlaying)}
               className={`p-2 rounded-xl border flex items-center justify-center transition-all ${
                 isPlaying
-                  ? "border-cyan-400 bg-cyan-950/80 text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.4)]"
+                  ? "border-cyan-400 bg-cyan-600 text-white dark:bg-cyan-950/80 dark:text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.4)]"
                   : "border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] hover:border-cyan-400"
               }`}
               title={isPlaying ? "Pause Simulation" : "Play Simulation"}
@@ -236,7 +236,7 @@ export function SimulationControls({ className = "" }: SimulationControlsProps) 
                   onClick={() => applyPreset(preset.id)}
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-mono whitespace-nowrap transition-all duration-150 ${
                     active
-                      ? "border border-cyan-400 bg-cyan-950/80 text-cyan-300 font-semibold shadow-[0_0_10px_rgba(34,211,238,0.3)]"
+                      ? "border border-cyan-400 bg-cyan-600 text-white dark:bg-cyan-950/80 dark:text-cyan-300 font-semibold shadow-[0_0_10px_rgba(34,211,238,0.3)]"
                       : "border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] hover:border-cyan-400/50"
                   }`}
                 >

@@ -34,6 +34,37 @@ export const PRESETS: AnimationPreset[] = [
       primaryColor: "#22D3EE",
       secondaryColor: "#8B5CF6",
     },
+    defaultCode: {
+      js: `// Three.js / R3F Orbital Simulation Engine
+import { useFrame } from '@react-three/fiber';
+import { useRef } from 'react';
+import * as THREE from 'three';
+
+export function SolarOrbit({ radius = 13.5, speed = 1.0 }) {
+  const orbitRef = useRef();
+  useFrame((_, delta) => {
+    if (orbitRef.current) {
+      orbitRef.current.rotation.y += delta * 0.12 * speed;
+    }
+  });
+
+  return (
+    <group ref={orbitRef}>
+      <mesh position={[radius, 0, 0]} castShadow receiveShadow>
+        <sphereGeometry args={[1.0, 64, 64]} />
+        <meshStandardMaterial color="#2B82C9" roughness={0.4} metalness={0.1} />
+      </mesh>
+    </group>
+  );
+}`,
+      css: `.solar-system-viewport {
+  width: 100%;
+  height: 100%;
+  background: #030712;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+}`,
+    },
   },
   {
     id: "torus-quantum",

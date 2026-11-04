@@ -53,8 +53,8 @@ export function StarField({ count = 2800 }: StarFieldProps) {
   });
 
   return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
+    <points key={count} ref={pointsRef}>
+      <bufferGeometry key={count}>
         <bufferAttribute
           attach="attributes-position"
           count={count}

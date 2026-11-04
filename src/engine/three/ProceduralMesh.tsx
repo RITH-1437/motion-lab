@@ -45,6 +45,8 @@ export function ProceduralMesh({ type, config, isPlaying = true }: ProceduralMes
     switch (type) {
       case "particle-nebula":
         return null; // Handled by ParticleSwarm component
+      case "solar-system":
+        return <sphereGeometry args={[1.3, 64, 64]} />;
       case "fluid-wave":
         return <torusGeometry args={[1.3, 0.45, 64, 128]} />;
       case "icosahedron-crystal":

@@ -91,7 +91,7 @@ export default function HomePage() {
 
               <Link
                 href="/editor"
-                className="px-6 py-3.5 rounded-xl text-sm font-mono uppercase tracking-wider font-semibold glass-button text-slate-200 hover:text-white flex items-center gap-2"
+                className="px-6 py-3.5 rounded-xl text-sm font-mono uppercase tracking-wider font-semibold glass-button text-[var(--foreground)] hover:text-accent-cyan flex items-center gap-2"
               >
                 <Code2 className="w-4 h-4 text-accent-pink" />
                 <span>Code Editor</span>
@@ -99,7 +99,7 @@ export default function HomePage() {
 
               <Link
                 href="/explore"
-                className="px-5 py-3.5 rounded-xl text-sm font-mono uppercase tracking-wider text-slate-400 hover:text-accent-cyan transition-colors flex items-center gap-1.5"
+                className="px-5 py-3.5 rounded-xl text-sm font-mono uppercase tracking-wider text-[var(--muted)] hover:text-accent-cyan transition-colors flex items-center gap-1.5"
               >
                 <span>Browse 8 Labs</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -163,17 +163,17 @@ export default function HomePage() {
                 />
 
                 {/* Floating instruction pill */}
-                <div className="absolute bottom-4 left-4 z-20 pointer-events-none bg-canvas-dark/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 text-[11px] font-mono text-slate-400 flex items-center gap-1.5">
+                <div className="absolute bottom-4 left-4 z-20 pointer-events-none bg-[var(--surface-elevated)]/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-[var(--border)] text-[11px] font-mono text-[var(--muted)] flex items-center gap-1.5">
                   <Orbit className="w-3.5 h-3.5 text-accent-cyan animate-spin-slow" />
                   <span>Drag to rotate • Scroll to zoom</span>
                 </div>
               </div>
 
               {/* Bottom Quick-Tweak Bar */}
-              <div className="px-5 py-3 border-t border-white/10 bg-black/40 backdrop-blur-md z-20 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+              <div className="px-5 py-3 border-t border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-md z-20 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
                 {/* Speed Slider */}
                 <div className="flex items-center gap-2">
-                  <span className="text-slate-400">Speed:</span>
+                  <span className="text-[var(--muted)]">Speed:</span>
                   <input
                     type="range"
                     min="0.2"
@@ -191,8 +191,8 @@ export default function HomePage() {
                   onClick={() => setHeroWireframe(!heroWireframe)}
                   className={`px-2.5 py-1 rounded-md border transition-all ${
                     heroWireframe
-                      ? "bg-accent-violet/30 border-accent-violet text-white"
-                      : "border-white/10 text-slate-400 hover:text-white"
+                      ? "bg-accent-violet/30 border-accent-violet text-accent-violet font-semibold"
+                      : "border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)]"
                   }`}
                 >
                   Wireframe: {heroWireframe ? "ON" : "OFF"}
@@ -203,7 +203,7 @@ export default function HomePage() {
                   onClick={() =>
                     setHeroColorIndex((prev) => (prev + 1) % colorPalettes.length)
                   }
-                  className="px-2.5 py-1 rounded-md border border-white/10 text-slate-300 hover:text-white flex items-center gap-1.5"
+                  className="px-2.5 py-1 rounded-md border border-[var(--border)] text-[var(--foreground)] hover:border-accent-pink flex items-center gap-1.5"
                 >
                   <Palette className="w-3.5 h-3.5 text-accent-pink" />
                   <span>{currentPalette.name}</span>
@@ -266,7 +266,7 @@ export default function HomePage() {
                   {preset.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 text-slate-400"
+                      className="px-2 py-0.5 rounded text-[10px] font-mono bg-[var(--surface-elevated)] text-[var(--muted)] border border-[var(--border)]"
                     >
                       {tag}
                     </span>
@@ -274,10 +274,10 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+              <div className="pt-4 border-t border-[var(--border)] flex items-center justify-between">
                 <Link
                   href={`/playground?preset=${preset.id}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-accent-cyan hover:text-white transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-accent-cyan hover:text-[var(--foreground)] transition-colors"
                 >
                   <Sliders className="w-3.5 h-3.5" />
                   <span>Customize</span>
@@ -285,7 +285,7 @@ export default function HomePage() {
 
                 <Link
                   href={`/editor?preset=${preset.id}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-slate-400 hover:text-accent-pink transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[var(--muted)] hover:text-accent-pink transition-colors"
                 >
                   <Code2 className="w-3.5 h-3.5" />
                   <span>Inspect Code</span>
@@ -407,7 +407,7 @@ export default function HomePage() {
                 Sensory Motion?
               </span>
             </h2>
-            <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+            <p className="text-[var(--muted)] text-sm sm:text-base leading-relaxed">
               Open the Playground to adjust physics and lighting in real-time, or jump directly into the split-screen Monaco code editor.
             </p>
 
@@ -420,7 +420,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/components"
-                className="px-8 py-4 rounded-xl text-sm font-mono uppercase tracking-wider font-semibold glass-button text-slate-200 hover:text-white"
+                className="px-8 py-4 rounded-xl text-sm font-mono uppercase tracking-wider font-semibold glass-button text-[var(--foreground)] hover:text-accent-cyan"
               >
                 Browse UI Components
               </Link>
