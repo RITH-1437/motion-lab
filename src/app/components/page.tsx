@@ -40,7 +40,7 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
       style={{ x: smoothX, y: smoothY }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="px-6 py-3 rounded-xl font-mono text-xs uppercase tracking-wider font-semibold bg-gradient-to-r from-accent-violet to-accent-cyan text-white shadow-glow hover:shadow-glow-cyan transition-shadow"
+      className="px-6 py-3 rounded-xl font-mono text-xs uppercase tracking-wider font-semibold bg-accent-violet text-white border border-accent-cyan/50 shadow-glow hover:shadow-[0_0_24px_6px_rgba(34,211,238,0.5)] hover:border-accent-cyan transition-all"
     >
       {children}
     </motion.button>

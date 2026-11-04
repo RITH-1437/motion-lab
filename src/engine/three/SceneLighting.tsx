@@ -9,7 +9,7 @@ export function SceneLighting({ config }: { config: AnimationPresetConfig }) {
   const pointerLightRef = useRef<THREE.PointLight>(null);
 
   useFrame((state) => {
-    if (pointerLightRef.current) {
+    if (pointerLightRef.current && state?.pointer) {
       pointerLightRef.current.position.x = state.pointer.x * 4;
       pointerLightRef.current.position.y = state.pointer.y * 4;
       pointerLightRef.current.position.z = 3;
@@ -19,13 +19,12 @@ export function SceneLighting({ config }: { config: AnimationPresetConfig }) {
   return (
     <>
       <ambientLight intensity={0.5 * config.lightIntensity} />
-      
+
       {/* Primary key light */}
       <directionalLight
         position={[5, 8, 5]}
         intensity={1.2 * config.lightIntensity}
         color={config.primaryColor}
-        castShadow
       />
 
       {/* Secondary rim light */}
@@ -46,6 +45,7 @@ export function SceneLighting({ config }: { config: AnimationPresetConfig }) {
       {/* Interactive mouse-following light */}
       <pointLight
         ref={pointerLightRef}
+        position={[0, 0, 3]}
         intensity={2.0 * config.lightIntensity}
         color={config.secondaryColor}
         distance={8}

@@ -70,7 +70,9 @@ export function Mesh({ speed = 1.0 }) {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at center, #101421, #080A12);
+  background: #080A12;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.15);
 }`
   );
 
@@ -104,7 +106,7 @@ export function Mesh({ speed = 1.0 }) {
             <div style="text-align: center; padding: 20px;">
               <div style="font-size: 14px; color: #22D3EE; margin-bottom: 8px;">[SANDBOX EXECUTION ENVIRONMENT]</div>
               <div style="font-size: 12px; color: #94A3B8;">Previewing compiled animation container safely</div>
-              <div style="margin-top: 16px; width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(45deg, #8B5CF6, #22D3EE); animation: spin 4s linear infinite; margin-left: auto; margin-right: auto;"></div>
+              <div style="margin-top: 16px; width: 80px; height: 80px; border-radius: 50%; background: #8B5CF6; border: 2px solid #22D3EE; box-shadow: 0 0 24px rgba(34, 211, 238, 0.6); animation: spin 4s linear infinite; margin-left: auto; margin-right: auto;"></div>
               <style>
                 @keyframes spin { 100% { transform: rotate(360deg); } }
               </style>

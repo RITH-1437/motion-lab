@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Float } from "@react-three/drei";
 import { ProceduralMesh } from "./ProceduralMesh";
@@ -18,6 +18,56 @@ interface SceneCanvasProps {
   className?: string;
 }
 
+function SceneInner({
+  presetId,
+  config,
+  isPlaying,
+  enableOrbit,
+  showParticles,
+  autoRotate,
+}: {
+  presetId: string;
+  config: AnimationPresetConfig;
+  isPlaying: boolean;
+  enableOrbit: boolean;
+  showParticles: boolean;
+  autoRotate: boolean;
+}) {
+  return (
+    <>
+      <SceneLighting config={config} />
+
+      <Float
+        speed={1.5 * config.speed}
+        rotationIntensity={0.6 * config.rotationSpeed}
+        floatIntensity={0.8}
+      >
+        <ProceduralMesh
+          type={presetId}
+          config={config}
+          isPlaying={isPlaying}
+        />
+      </Float>
+
+      {showParticles && (
+        <ParticleSwarm config={config} isPlaying={isPlaying} />
+      )}
+
+      {enableOrbit && (
+        <OrbitControls
+          enableZoom={true}
+          enablePan={false}
+          autoRotate={autoRotate}
+          autoRotateSpeed={1.0 * config.rotationSpeed}
+          minDistance={2.5}
+          maxDistance={8}
+          dampingFactor={0.05}
+        />
+      )}
+    </>
+  );
+}
+
 export function SceneCanvas({
   presetId = "torus-quantum",
   config,
@@ -27,6 +77,20 @@ export function SceneCanvas({
   autoRotate = false,
   className = "w-full h-full",
 }: SceneCanvasProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className={`relative ${className} flex items-center justify-center bg-canvas-dark/40`}>
+        <div className="w-6 h-6 border-2 border-accent-cyan/30 border-t-accent-cyan rounded-full animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className={`relative ${className}`}>
       <Canvas
@@ -39,35 +103,14 @@ export function SceneCanvas({
         dpr={[1, 2]}
       >
         <Suspense fallback={null}>
-          <SceneLighting config={config} />
-
-          <Float
-            speed={1.5 * config.speed}
-            rotationIntensity={0.6 * config.rotationSpeed}
-            floatIntensity={0.8}
-          >
-            <ProceduralMesh
-              type={presetId}
-              config={config}
-              isPlaying={isPlaying}
-            />
-          </Float>
-
-          {showParticles && (
-            <ParticleSwarm config={config} isPlaying={isPlaying} />
-          )}
-
-          {enableOrbit && (
-            <OrbitControls
-              enableZoom={true}
-              enablePan={false}
-              autoRotate={autoRotate}
-              autoRotateSpeed={1.0 * config.rotationSpeed}
-              minDistance={2.5}
-              maxDistance={8}
-              dampingFactor={0.05}
-            />
-          )}
+          <SceneInner
+            presetId={presetId}
+            config={config}
+            isPlaying={isPlaying}
+            enableOrbit={enableOrbit}
+            showParticles={showParticles}
+            autoRotate={autoRotate}
+          />
         </Suspense>
       </Canvas>
     </div>

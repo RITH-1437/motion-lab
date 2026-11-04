@@ -6,8 +6,8 @@ import { Terminal, Activity, ArrowUpRight } from "lucide-react";
 export function Footer() {
   return (
     <footer className="relative border-t border-[var(--border)] bg-[var(--surface)] backdrop-blur-md pt-16 pb-12 overflow-hidden">
-      {/* Ambient gradient top glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-accent-violet/50 to-transparent" />
+      {/* Neon top-edge line */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-accent-violet/40" />
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 bg-accent-violet/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8">

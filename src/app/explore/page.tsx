@@ -162,7 +162,7 @@ export default function ExplorePage() {
             <div className="pt-4 border-t border-white/5 flex items-center justify-between gap-2">
               <Link
                 href={`/playground?preset=${preset.id}`}
-                className="flex-1 py-2 rounded-lg text-center font-mono text-xs uppercase tracking-wider font-semibold bg-gradient-to-r from-accent-violet to-accent-cyan text-white hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5"
+                className="flex-1 py-2 rounded-lg text-center font-mono text-xs uppercase tracking-wider font-semibold bg-accent-violet text-white border border-accent-cyan/40 shadow-glow hover:bg-accent-violet/90 hover:shadow-[0_0_18px_rgba(139,92,246,0.6)] transition-all flex items-center justify-center gap-1.5"
               >
                 <Sliders className="w-3.5 h-3.5" />
                 <span>Playground</span>
@@ -237,7 +237,7 @@ export default function ExplorePage() {
               </p>
               <Link
                 href={`/playground?preset=${activePreviewPreset.id}`}
-                className="px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider font-bold bg-gradient-to-r from-accent-violet to-accent-cyan text-white shadow-glow"
+                className="px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider font-bold bg-accent-cyan text-canvas-dark shadow-[0_0_20px_rgba(34,211,238,0.6)] hover:bg-cyan-300 transition-all"
               >
                 Open in Full Playground →
               </Link>

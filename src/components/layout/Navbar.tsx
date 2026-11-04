@@ -32,21 +32,18 @@ export function Navbar() {
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Brand Logo */}
+        {/* Brand Logo — neon border box, no gradient */}
         <Link
           href="/"
           className="flex items-center gap-3 group relative cursor-pointer"
         >
-          <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-accent-violet via-accent-cyan to-accent-pink p-[1px] transition-transform duration-300 group-hover:scale-105">
-            <div className="w-full h-full bg-canvas-dark rounded-[11px] flex items-center justify-center">
-              <Cpu className="w-5 h-5 text-accent-cyan group-hover:text-accent-pink transition-colors duration-300" />
-            </div>
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-accent-violet to-accent-cyan rounded-xl blur opacity-30 group-hover:opacity-80 transition duration-500" />
+          <div className="relative w-9 h-9 rounded-xl border border-accent-cyan/60 bg-[var(--surface)] flex items-center justify-center transition-all duration-300 group-hover:border-accent-pink group-hover:shadow-[0_0_16px_2px_rgba(236,72,153,0.5)]">
+            <Cpu className="w-5 h-5 text-accent-cyan group-hover:text-accent-pink transition-colors duration-300" />
           </div>
 
           <div className="flex flex-col">
-            <span className="font-bold tracking-wider text-base font-mono uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
-              MOTION<span className="text-accent-cyan">LAB</span>
+            <span className="font-bold tracking-wider text-base font-mono uppercase text-[var(--foreground)]">
+              MOTION<span className="text-accent-cyan neon-text-cyan">LAB</span>
             </span>
             <span className="text-[10px] tracking-widest uppercase text-accent-violet/80 font-mono -mt-1 font-medium">
               v1.0 • Creative Lab
@@ -55,7 +52,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 glass-panel px-3 py-1.5 rounded-full border border-white/10 shadow-glass">
+        <nav className="hidden md:flex items-center gap-1 glass-panel px-3 py-1.5 rounded-full border border-[var(--border)] shadow-glass">
           {siteConfig.navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -65,20 +62,20 @@ export function Navbar() {
                 className={cn(
                   "relative px-4 py-1.5 rounded-full text-xs font-medium font-mono uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5",
                   isActive
-                    ? "text-white"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                    ? "text-accent-cyan"
+                    : "text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-white/5"
                 )}
               >
                 {isActive && (
                   <motion.div
                     layoutId="activeNavIndicator"
-                    className="absolute inset-0 bg-gradient-to-r from-accent-violet/25 to-accent-cyan/25 border border-accent-cyan/40 rounded-full"
+                    className="absolute inset-0 bg-accent-cyan/10 border border-accent-cyan/50 rounded-full shadow-[0_0_12px_1px_rgba(34,211,238,0.25)]"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
                 <span className="relative z-10">{item.name}</span>
                 {item.badge && (
-                  <span className="relative z-10 px-1.5 py-0.2 rounded-full text-[9px] font-mono bg-accent-violet/30 text-accent-cyan border border-accent-cyan/30">
+                  <span className="relative z-10 px-1.5 py-0.5 rounded-full text-[9px] font-mono bg-accent-violet/20 text-accent-cyan border border-accent-cyan/30">
                     {item.badge}
                   </span>
                 )}
@@ -93,7 +90,7 @@ export function Navbar() {
 
           <Link
             href="/playground"
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-semibold uppercase tracking-wider bg-gradient-to-r from-accent-violet to-accent-cyan text-white shadow-glow hover:shadow-glow-cyan hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-semibold uppercase tracking-wider bg-accent-violet text-white shadow-glow hover:bg-accent-violet/80 hover:shadow-[0_0_24px_4px_rgba(139,92,246,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
             <Sparkles className="w-3.5 h-3.5" />
             <span>Launch Lab</span>
@@ -103,7 +100,7 @@ export function Navbar() {
           {/* Mobile Menu Hamburger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-xl glass-button text-slate-300"
+            className="md:hidden p-2 rounded-xl glass-button text-[var(--muted)]"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? (
@@ -123,7 +120,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden mt-3 mx-2 p-5 rounded-2xl glass-panel border border-white/10 flex flex-col gap-3"
+            className="md:hidden mt-3 mx-2 p-5 rounded-2xl glass-panel border border-[var(--border)] flex flex-col gap-3"
           >
             {siteConfig.navItems.map((item) => {
               const isActive = pathname === item.href;
@@ -135,13 +132,13 @@ export function Navbar() {
                   className={cn(
                     "flex items-center justify-between p-3 rounded-xl font-mono text-sm tracking-wide transition-all",
                     isActive
-                      ? "bg-accent-violet/20 border border-accent-cyan/30 text-[var(--foreground)]"
+                      ? "bg-accent-cyan/10 border border-accent-cyan/40 text-accent-cyan"
                       : "text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-black/5"
                   )}
                 >
                   <span>{item.name}</span>
                   {item.badge && (
-                    <span className="px-2 py-0.5 rounded text-[10px] bg-accent-violet/30 text-accent-cyan border border-accent-cyan/30">
+                    <span className="px-2 py-0.5 rounded text-[10px] bg-accent-violet/20 text-accent-cyan border border-accent-cyan/30">
                       {item.badge}
                     </span>
                   )}
@@ -151,7 +148,7 @@ export function Navbar() {
             <Link
               href="/playground"
               onClick={() => setMobileMenuOpen(false)}
-              className="mt-2 text-center py-3 rounded-xl font-mono text-xs uppercase tracking-wider font-semibold bg-gradient-to-r from-accent-violet to-accent-cyan text-white shadow-glow"
+              className="mt-2 text-center py-3 rounded-xl font-mono text-xs uppercase tracking-wider font-semibold bg-accent-violet text-white shadow-glow hover:shadow-[0_0_20px_4px_rgba(139,92,246,0.5)] transition-shadow"
             >
               Launch Playground
             </Link>

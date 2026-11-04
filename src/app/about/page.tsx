@@ -143,7 +143,7 @@ export default function AboutPage() {
       <div className="pt-8 flex items-center justify-between border-t border-white/10">
         <Link
           href="/playground"
-          className="px-6 py-3 rounded-xl font-mono text-xs uppercase tracking-wider font-bold bg-gradient-to-r from-accent-violet to-accent-cyan text-white shadow-glow flex items-center gap-2"
+          className="px-6 py-3 rounded-xl font-mono text-xs uppercase tracking-wider font-bold bg-accent-violet text-white shadow-glow hover:shadow-[0_0_24px_6px_rgba(139,92,246,0.55)] hover:bg-accent-violet/80 flex items-center gap-2 transition-all"
         >
           <span>Launch 3D Playground</span>
           <ArrowRight className="w-4 h-4" />

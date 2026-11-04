@@ -63,7 +63,9 @@ export function Mesh({ speed = 1.0, wireframe = false }) {
       css: `.canvas-container {
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, #101421 0%, #080a12 100%);
+  background: #080A12;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  box-shadow: inset 0 0 40px rgba(139, 92, 246, 0.2);
 }`,
     },
   },

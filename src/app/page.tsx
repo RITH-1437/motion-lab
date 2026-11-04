@@ -67,7 +67,7 @@ export default function HomePage() {
 
             <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight font-mono uppercase leading-[1.08]">
               Sculpting <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-violet via-accent-cyan to-accent-pink">
+              <span className="text-accent-cyan neon-text-cyan">
                 Kinetic Digital
               </span>{" "}
               Realms.
@@ -82,7 +82,7 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
                 href="/playground"
-                className="px-6 py-3.5 rounded-xl text-sm font-mono uppercase tracking-wider font-semibold bg-gradient-to-r from-accent-violet via-indigo-600 to-accent-cyan text-white shadow-glow hover:shadow-glow-cyan hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center gap-2"
+                className="px-6 py-3.5 rounded-xl text-sm font-mono uppercase tracking-wider font-semibold bg-accent-violet text-white shadow-glow hover:bg-accent-violet/80 hover:shadow-[0_0_28px_6px_rgba(139,92,246,0.55)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center gap-2"
               >
                 <Sliders className="w-4 h-4" />
                 <span>Enter Playground</span>
@@ -130,8 +130,8 @@ export default function HomePage() {
             transition={{ duration: 1, delay: 0.2 }}
             className="lg:col-span-6 relative h-[500px] sm:h-[580px] w-full flex items-center justify-center"
           >
-            {/* Ambient halo glow */}
-            <div className="absolute inset-4 rounded-3xl bg-gradient-to-tr from-accent-violet/20 via-accent-cyan/15 to-transparent blur-2xl -z-10" />
+            {/* Ambient neon glow halo — solid color blur, no gradient */}
+            <div className="absolute inset-4 rounded-3xl bg-accent-violet/15 blur-2xl -z-10" />
 
             {/* Viewport Frame */}
             <div className="w-full h-full rounded-3xl glass-panel border border-white/10 overflow-hidden relative shadow-2xl flex flex-col">
@@ -401,9 +401,9 @@ export default function HomePage() {
 
           <div className="relative z-10 max-w-2xl mx-auto space-y-6">
             <Badge variant="emerald">Instant Sandbox Access</Badge>
-            <h2 className="text-3xl sm:text-5xl font-extrabold font-mono uppercase text-white">
+            <h2 className="text-3xl sm:text-5xl font-extrabold font-mono uppercase text-[var(--foreground)]">
               Ready to Craft <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-violet via-accent-cyan to-accent-pink">
+              <span className="text-accent-pink" style={{ textShadow: "0 0 24px rgba(236,72,153,0.7)" }}>
                 Sensory Motion?
               </span>
             </h2>
@@ -414,7 +414,7 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
               <Link
                 href="/playground"
-                className="px-8 py-4 rounded-xl text-sm font-mono uppercase tracking-wider font-semibold bg-gradient-to-r from-accent-violet to-accent-cyan text-white shadow-glow hover:scale-105 active:scale-95 transition-all duration-300"
+                className="px-8 py-4 rounded-xl text-sm font-mono uppercase tracking-wider font-semibold bg-accent-violet text-white shadow-glow hover:shadow-[0_0_30px_8px_rgba(139,92,246,0.5)] hover:scale-105 active:scale-95 transition-all duration-300"
               >
                 Launch Playground Now
               </Link>

@@ -32,8 +32,8 @@ export function GlassCard({
       )}
       {...props}
     >
-      {/* Subtle top edge specular highlight */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+      {/* Subtle top edge specular highlight — solid 1px neon line */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-accent-cyan/20 pointer-events-none" />
       {children}
     </div>
   );
