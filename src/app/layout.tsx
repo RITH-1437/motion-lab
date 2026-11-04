@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/common/SmoothScroll";
 import { CustomCursor } from "@/components/common/CustomCursor";
 import { ThemeProvider } from "@/components/common/ThemeProvider";
+import { CinematicPreloader } from "@/components/common/CinematicPreloader";
 import { siteConfig } from "@/config/site";
 
 const geistSans = localFont({
@@ -62,6 +63,7 @@ export default function RootLayout({
         <ThemeProvider>
           <SmoothScroll>
             <CustomCursor />
+            <CinematicPreloader />
             <Navbar />
             <main className="flex-1 w-full pt-16">{children}</main>
             <Footer />

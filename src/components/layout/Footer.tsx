@@ -1,9 +1,16 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
-import { Terminal, Activity, ArrowUpRight } from "lucide-react";
+import { Terminal, Activity, ArrowUpRight, Sparkles } from "lucide-react";
 
 export function Footer() {
+  const handleReplayIntro = () => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("motion-lab:replay-intro"));
+    }
+  };
   return (
     <footer className="relative border-t border-[var(--border)] bg-[var(--surface)] backdrop-blur-md pt-16 pb-12 overflow-hidden">
       {/* Neon top-edge line */}
@@ -36,6 +43,18 @@ export function Footer() {
                 <Terminal className="w-3.5 h-3.5 text-accent-violet" />
                 <span>Monaco / WebGL 2.0</span>
               </div>
+            </div>
+
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={handleReplayIntro}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card)] text-xs font-mono text-[var(--muted)] hover:text-cyan-400 hover:border-cyan-400/60 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-[0_0_12px_rgba(34,211,238,0.2)]"
+                title="Replay Cinematic Website Intro"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Replay Cinematic Intro</span>
+              </button>
             </div>
           </div>
 
