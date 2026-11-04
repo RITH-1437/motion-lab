@@ -65,42 +65,214 @@ export function getSunTexture(): THREE.CanvasTexture {
 }
 
 /**
- * Procedural Earth Day Texture (Continents, Oceans, Polar Caps)
+ * Procedural Earth Day Texture (Continents, Vibrant Greens, Turquoise Water Shallows, Polar Caps)
  */
 export function getEarthDayTexture(): THREE.CanvasTexture {
-  return createCachedTexture("earth-day", 1024, 512, (ctx, w, h) => {
-    // Deep Ocean Base
-    ctx.fillStyle = "#0c2b5c";
+  return createCachedTexture("earth-day", 2048, 1024, (ctx, w, h) => {
+    // 1. Deep Ocean Base with realistic marine blue depth
+    const oceanGrad = ctx.createLinearGradient(0, 0, 0, h);
+    oceanGrad.addColorStop(0, "#031E42");
+    oceanGrad.addColorStop(0.25, "#063970");
+    oceanGrad.addColorStop(0.5, "#0A58CA"); // Vibrant tropical deep blue
+    oceanGrad.addColorStop(0.75, "#063970");
+    oceanGrad.addColorStop(1, "#031E42");
+    ctx.fillStyle = oceanGrad;
     ctx.fillRect(0, 0, w, h);
 
-    // Continental landmass clusters
-    ctx.fillStyle = "#2d5e32"; // Lush green/forest
-    const continents = [
-      { x: w * 0.22, y: h * 0.35, rx: 90, ry: 60 }, // North America
-      { x: w * 0.3, y: h * 0.65, rx: 65, ry: 90 },  // South America
-      { x: w * 0.52, y: h * 0.3, rx: 70, ry: 45 },  // Europe
-      { x: w * 0.52, y: h * 0.55, rx: 80, ry: 80 },  // Africa
-      { x: w * 0.72, y: h * 0.35, rx: 130, ry: 80 }, // Asia
-      { x: w * 0.82, y: h * 0.72, rx: 60, ry: 45 },  // Australia
+    // Oceanic current swirls (subtle deep blue variations)
+    for (let i = 0; i < 40; i++) {
+      ctx.fillStyle = "rgba(14, 116, 144, 0.15)";
+      ctx.beginPath();
+      ctx.ellipse(
+        Math.random() * w,
+        Math.random() * h,
+        150 + Math.random() * 200,
+        40 + Math.random() * 80,
+        (Math.random() - 0.5) * 0.4,
+        0,
+        Math.PI * 2
+      );
+      ctx.fill();
+    }
+
+    // Detailed landmass coordinate configurations
+    const continentData = [
+      // North America
+      {
+        center: [w * 0.22, h * 0.35],
+        parts: [
+          { dx: 0, dy: -30, rx: 120, ry: 75, angle: 0 }, // Canada / Subarctic
+          { dx: -20, dy: 30, rx: 90, ry: 65, angle: -0.1 }, // US Mainland
+          { dx: -50, dy: 90, rx: 45, ry: 40, angle: 0.5 }, // Mexico
+          { dx: -20, dy: 130, rx: 25, ry: 50, angle: 0.7 }, // Central America isthmus
+          { dx: -130, dy: -45, rx: 55, ry: 40, angle: -0.2 }, // Alaska
+          { dx: 45, dy: 35, rx: 15, ry: 40, angle: 0.2 }, // Florida peninsula
+        ],
+      },
+      // Greenland
+      {
+        center: [w * 0.38, h * 0.16],
+        parts: [{ dx: 0, dy: 0, rx: 65, ry: 80, angle: 0.1 }],
+      },
+      // South America
+      {
+        center: [w * 0.31, h * 0.66],
+        parts: [
+          { dx: 0, dy: -30, rx: 95, ry: 70, angle: 0.1 }, // Amazon Basin
+          { dx: -25, dy: 40, rx: 65, ry: 95, angle: 0.25 }, // Brazil / Argentina
+          { dx: -55, dy: 20, rx: 25, ry: 130, angle: 0.15 }, // Andes Coastline
+        ],
+      },
+      // Europe
+      {
+        center: [w * 0.52, h * 0.29],
+        parts: [
+          { dx: -10, dy: -10, rx: 75, ry: 50, angle: 0 }, // Central Europe
+          { dx: 15, dy: -55, rx: 45, ry: 65, angle: -0.3 }, // Scandinavia
+          { dx: -60, dy: 25, rx: 35, ry: 30, angle: 0.1 }, // Iberian Peninsula
+          { dx: -20, dy: 30, rx: 18, ry: 40, angle: 0.6 }, // Italy boot
+          { dx: -65, dy: -15, rx: 25, ry: 35, angle: 0.3 }, // British Isles
+        ],
+      },
+      // Africa
+      {
+        center: [w * 0.53, h * 0.56],
+        parts: [
+          { dx: 0, dy: -50, rx: 110, ry: 60, angle: 0 }, // North Africa / Sahara
+          { dx: -15, dy: 15, rx: 85, ry: 70, angle: 0.1 }, // Central Rainforest / Congo
+          { dx: 5, dy: 80, rx: 60, ry: 80, angle: 0.2 }, // Southern Africa
+          { dx: 55, dy: -25, rx: 35, ry: 45, angle: 0.6 }, // Horn of Africa
+          { dx: 80, dy: 85, rx: 20, ry: 45, angle: 0.3 }, // Madagascar
+        ],
+      },
+      // Asia
+      {
+        center: [w * 0.73, h * 0.33],
+        parts: [
+          { dx: 0, dy: -60, rx: 180, ry: 75, angle: 0 }, // Siberia / Russia
+          { dx: -70, dy: 30, rx: 65, ry: 65, angle: 0.3 }, // India
+          { dx: 25, dy: 15, rx: 100, ry: 70, angle: 0 }, // China / East Asia
+          { dx: 60, dy: 80, rx: 45, ry: 60, angle: 0.6 }, // Southeast Asia
+          { dx: -110, dy: 15, rx: 55, ry: 50, angle: -0.2 }, // Middle East / Arabia
+          { dx: 125, dy: 10, rx: 18, ry: 65, angle: 0.4 }, // Japan archipelago
+        ],
+      },
+      // Australia & Oceania
+      {
+        center: [w * 0.83, h * 0.73],
+        parts: [
+          { dx: 0, dy: 0, rx: 80, ry: 55, angle: 0 }, // Australia Mainland
+          { dx: 10, dy: 55, rx: 16, ry: 16, angle: 0 }, // Tasmania
+          { dx: 75, dy: 40, rx: 18, ry: 50, angle: 0.5 }, // New Zealand
+        ],
+      },
+      // Maritime Southeast Asia / Indonesia archipelago
+      {
+        center: [w * 0.78, h * 0.58],
+        parts: [
+          { dx: -20, dy: 0, rx: 40, ry: 15, angle: 0.2 }, // Sumatra / Java
+          { dx: 20, dy: -10, rx: 35, ry: 25, angle: 0 }, // Borneo
+          { dx: 65, dy: 10, rx: 45, ry: 20, angle: -0.1 }, // New Guinea
+          { dx: 15, dy: -35, rx: 15, ry: 30, angle: 0.2 }, // Philippines
+        ],
+      },
     ];
 
-    continents.forEach(({ x, y, rx, ry }) => {
-      ctx.beginPath();
-      ctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
-      ctx.fill();
+    // STEP 2: Render Continental Shelves / Turquoise Shallow Waters
+    // Gives Earth that luminous aquamarine glow along coastlines & reefs
+    continentData.forEach(({ center, parts }) => {
+      const [cx, cy] = center;
+      parts.forEach(({ dx, dy, rx, ry, angle }) => {
+        // Outer turquoise lagoon aura
+        ctx.fillStyle = "rgba(6, 182, 212, 0.45)"; // Cyan-500
+        ctx.beginPath();
+        ctx.ellipse(cx + dx, cy + dy, rx + 24, ry + 20, angle, 0, Math.PI * 2);
+        ctx.fill();
 
-      // Desert/arid inner core
-      ctx.fillStyle = "#705c31";
-      ctx.beginPath();
-      ctx.ellipse(x, y, rx * 0.5, ry * 0.4, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = "#2d5e32";
+        // Inner bright aqua reef rim
+        ctx.fillStyle = "rgba(34, 211, 238, 0.65)"; // Cyan-400
+        ctx.beginPath();
+        ctx.ellipse(cx + dx, cy + dy, rx + 12, ry + 10, angle, 0, Math.PI * 2);
+        ctx.fill();
+      });
     });
 
-    // Polar Ice Caps
-    ctx.fillStyle = "#e0f2fe";
-    ctx.fillRect(0, 0, w, 28);
-    ctx.fillRect(0, h - 35, w, 35);
+    // STEP 3: Render Continents with Lush Forest & Emerald Greens
+    continentData.forEach(({ center, parts }) => {
+      const [cx, cy] = center;
+
+      // Base lush vegetation green
+      ctx.fillStyle = "#166534"; // Deep forest green
+      parts.forEach(({ dx, dy, rx, ry, angle }) => {
+        ctx.beginPath();
+        ctx.ellipse(cx + dx, cy + dy, rx, ry, angle, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Layer 2: Vibrant emerald & fertile plains
+      ctx.fillStyle = "#15803D"; // Vibrant emerald
+      parts.forEach(({ dx, dy, rx, ry, angle }) => {
+        ctx.beginPath();
+        ctx.ellipse(cx + dx * 0.95, cy + dy * 0.95, rx * 0.85, ry * 0.82, angle, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Layer 3: Rainforest canopies & bright river basins
+      ctx.fillStyle = "#10B981"; // Emerald-500
+      parts.forEach(({ dx, dy, rx, ry, angle }) => {
+        ctx.beginPath();
+        ctx.ellipse(cx + dx * 0.9, cy + dy * 0.9, rx * 0.55, ry * 0.5, angle, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Layer 4: Warm savannah & cordillera mountains
+      ctx.fillStyle = "#84CC16"; // Bright lime/savannah
+      parts.forEach(({ dx, dy, rx, ry, angle }) => {
+        ctx.beginPath();
+        ctx.ellipse(cx + dx * 0.85, cy + dy * 0.85, rx * 0.32, ry * 0.28, angle + 0.1, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Mountain spines / arid highland peaks
+      ctx.fillStyle = "#9A7B56"; // Natural alpine earthen tone
+      parts.forEach(({ dx, dy, rx, ry, angle }) => {
+        ctx.beginPath();
+        ctx.ellipse(cx + dx * 0.8, cy + dy * 0.8, rx * 0.18, ry * 0.14, angle, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    });
+
+    // STEP 4: Blue Great Lakes & Inland Waterways
+    ctx.fillStyle = "#0284C7"; // Vivid freshwater blue
+    // Great Lakes
+    ctx.beginPath();
+    ctx.ellipse(w * 0.24, h * 0.32, 16, 9, 0.3, 0, Math.PI * 2);
+    ctx.fill();
+    // Caspian Sea
+    ctx.beginPath();
+    ctx.ellipse(w * 0.59, h * 0.31, 12, 22, 0.2, 0, Math.PI * 2);
+    ctx.fill();
+    // Black Sea
+    ctx.beginPath();
+    ctx.ellipse(w * 0.55, h * 0.3, 14, 8, -0.1, 0, Math.PI * 2);
+    ctx.fill();
+    // Lake Victoria
+    ctx.beginPath();
+    ctx.ellipse(w * 0.56, h * 0.55, 10, 10, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // STEP 5: Polar Ice Caps with Glacial Turquoise Edges
+    // North Pole (Arctic)
+    ctx.fillStyle = "rgba(6, 182, 212, 0.5)"; // Turquoise shelf
+    ctx.fillRect(0, 0, w, 55);
+    ctx.fillStyle = "#F0FDF4"; // Pure glacier snow
+    ctx.fillRect(0, 0, w, 42);
+
+    // South Pole (Antarctica)
+    ctx.fillStyle = "rgba(6, 182, 212, 0.5)";
+    ctx.fillRect(0, h - 70, w, 70);
+    ctx.fillStyle = "#F0FDF4";
+    ctx.fillRect(0, h - 55, w, 55);
   });
 }
 

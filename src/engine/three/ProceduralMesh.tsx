@@ -4,6 +4,7 @@ import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { AnimationPresetConfig } from "@/types";
+import { SolarSystemPreview } from "./SolarSystemPreview";
 
 interface ProceduralMeshProps {
   type: string;
@@ -66,6 +67,9 @@ export function ProceduralMesh({ type, config, isPlaying = true }: ProceduralMes
   };
 
   if (type === "particle-nebula") return null;
+  if (type === "solar-system") {
+    return <SolarSystemPreview config={config} isPlaying={isPlaying} />;
+  }
 
   return (
     <mesh

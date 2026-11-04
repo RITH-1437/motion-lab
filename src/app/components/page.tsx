@@ -1,234 +1,340 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import React, { useState, useMemo } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { GlassCard } from "@/components/ui/GlassCard";
 import {
+  ALL_COMPONENTS,
+  COMPONENT_CATEGORIES,
+  ComponentCategory,
+} from "@/data/components";
+import {
+  Search,
   Copy,
   Check,
-  ArrowRight,
+  Code2,
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
-// Interactive Magnetic Button Component
-function MagneticButton({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const springConfig = { damping: 15, stiffness: 150, mass: 0.1 };
-  const smoothX = useSpring(x, springConfig);
-  const smoothY = useSpring(y, springConfig);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!ref.current) return;
-    const { left, top, width, height } = ref.current.getBoundingClientRect();
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
-    x.set((e.clientX - centerX) * 0.4);
-    y.set((e.clientY - centerY) * 0.4);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.button
-      ref={ref}
-      style={{ x: smoothX, y: smoothY }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="px-6 py-3 rounded-xl font-mono text-xs uppercase tracking-wider font-semibold bg-accent-violet text-white border border-accent-cyan/50 shadow-glow hover:shadow-[0_0_24px_6px_rgba(34,211,238,0.5)] hover:border-accent-cyan transition-all"
-    >
-      {children}
-    </motion.button>
-  );
-}
-
-// Interactive 3D Tilt Card Component
-function TiltCard() {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const rotateX = useTransform(y, [-100, 100], [15, -15]);
-  const rotateY = useTransform(x, [-100, 100], [-15, 15]);
-
-  function handleMouse(e: React.MouseEvent<HTMLDivElement>) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    x.set(mouseX - width / 2);
-    y.set(mouseY - height / 2);
-  }
-
-  function handleLeave() {
-    x.set(0);
-    y.set(0);
-  }
-
-  return (
-    <motion.div
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-      }}
-      onMouseMove={handleMouse}
-      onMouseLeave={handleLeave}
-      className="w-full h-56 rounded-2xl glass-panel border border-[var(--border)] p-6 flex flex-col justify-between cursor-pointer relative"
-    >
-      <div style={{ transform: "translateZ(30px)" }}>
-        <Badge variant="cyan">3D Tilt Physics</Badge>
-        <h4 className="font-mono text-base font-bold text-[var(--foreground)] mt-3">
-          Spatial Parallax Card
-        </h4>
-        <p className="font-mono text-xs text-[var(--muted)] mt-1">
-          Moves smoothly based on cursor coordinates with Euler spring transforms.
-        </p>
-      </div>
-
-      <div
-        style={{ transform: "translateZ(20px)" }}
-        className="flex items-center justify-between text-xs font-mono text-accent-cyan"
-      >
-        <span>Hover & tilt angle</span>
-        <ArrowRight className="w-4 h-4" />
-      </div>
-    </motion.div>
-  );
-}
-
 export default function ComponentsPage() {
-  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<ComponentCategory | "all">("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [expandedCodeId, setExpandedCodeId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(12);
 
-  const copyCode = (code: string, idx: number) => {
+  const copyCode = (code: string, id: string) => {
     navigator.clipboard.writeText(code);
-    setCopiedIndex(idx);
-    setTimeout(() => setCopiedIndex(null), 2000);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const componentDemos = [
-    {
-      title: "Magnetic Physics Button",
-      category: "Mouse Interactions",
-      description: "Elastic cursor-attracted button with spring-damped return trajectory.",
-      code: `<MagneticButton>Magnetic Pull</MagneticButton>`,
-      demo: (
-        <div className="py-8 flex justify-center">
-          <MagneticButton>Hover Near Me</MagneticButton>
-        </div>
-      ),
-    },
-    {
-      title: "Interactive 3D Tilt Card",
-      category: "3D Perspective",
-      description: "Gyroscopic mouse tilt with isolated 3D z-depth layering.",
-      code: `<TiltCard />`,
-      demo: <TiltCard />,
-    },
-    {
-      title: "Neon Pulse Glass Button",
-      category: "Micro-Interactions",
-      description: "Continuous subtle glow animation with reactive hover border dilation.",
-      code: `<button className="glass-button px-6 py-3 rounded-xl border border-accent-pink/40 text-accent-pink shadow-glow-pink">Pulse CTA</button>`,
-      demo: (
-        <div className="py-8 flex justify-center">
-          <button className="px-6 py-3 rounded-xl font-mono text-xs uppercase tracking-wider font-semibold glass-button border border-accent-pink/50 text-accent-pink shadow-glow-pink hover:bg-accent-pink/10 transition-all">
-            Cyber Neon Button
-          </button>
-        </div>
-      ),
-    },
-    {
-      title: "Kinetic Floating Elements",
-      category: "Spatial Motion",
-      description: "Perpetual harmonic float with varying phase offsets.",
-      code: `<motion.div animate={{ y: [-6, 6, -6] }} transition={{ repeat: Infinity, duration: 4 }}>Float</motion.div>`,
-      demo: (
-        <div className="py-8 flex justify-center gap-4">
-          <motion.div
-            animate={{ y: [-8, 8, -8] }}
-            transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-            className="w-14 h-14 rounded-2xl glass-panel border border-accent-violet/40 flex items-center justify-center text-accent-violet font-mono text-xs shadow-glow"
-          >
-            F1
-          </motion.div>
-          <motion.div
-            animate={{ y: [8, -8, 8] }}
-            transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-            className="w-14 h-14 rounded-2xl glass-panel border border-accent-cyan/40 flex items-center justify-center text-accent-cyan font-mono text-xs shadow-glow-cyan"
-          >
-            F2
-          </motion.div>
-        </div>
-      ),
-    },
-  ];
+  const filteredComponents = useMemo(() => {
+    return ALL_COMPONENTS.filter((comp) => {
+      const matchesCategory =
+        selectedCategory === "all" || comp.category === selectedCategory;
+      const q = searchQuery.toLowerCase().trim();
+      const matchesSearch =
+        !q ||
+        comp.title.toLowerCase().includes(q) ||
+        comp.description.toLowerCase().includes(q) ||
+        comp.tags.some((t) => t.toLowerCase().includes(q));
+      return matchesCategory && matchesSearch;
+    });
+  }, [selectedCategory, searchQuery]);
+
+  // Pagination calculation
+  const totalPages = Math.ceil(filteredComponents.length / itemsPerPage);
+  const paginatedComponents = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return filteredComponents.slice(start, start + itemsPerPage);
+  }, [filteredComponents, currentPage, itemsPerPage]);
+
+  const handleCategoryChange = (cat: ComponentCategory | "all") => {
+    setSelectedCategory(cat);
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (q: string) => {
+    setSearchQuery(q);
+    setCurrentPage(1);
+  };
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-8 max-w-7xl mx-auto">
+    <div className="min-h-screen py-12 px-4 sm:px-8 max-w-7xl mx-auto space-y-12">
       {/* Page Header */}
-      <div className="mb-12 space-y-4">
-        <Badge variant="violet">Design System & Primitives</Badge>
-        <h1 className="text-4xl sm:text-5xl font-extrabold font-mono uppercase tracking-tight text-[var(--foreground)]">
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="violet">Design System & Motion Primitives</Badge>
+          <span className="px-2.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-400/50 text-cyan-300 font-mono text-xs font-semibold shadow-[0_0_10px_rgba(34,211,238,0.25)]">
+            ⚡ 105+ Production-Ready Components
+          </span>
+        </div>
+
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-mono uppercase tracking-tight text-[var(--foreground)]">
           Reusable Motion Components
         </h1>
-        <p className="text-[var(--muted)] text-sm sm:text-base max-w-2xl leading-relaxed">
-          Plug-and-play UI components built with Framer Motion, Tailwind CSS, and WebGL principles.
-          Copy code directly or test the interactive physics live.
+        <p className="text-[var(--muted)] text-sm sm:text-base max-w-3xl leading-relaxed">
+          Explore over 100 plug-and-play UI components built with Framer Motion, Tailwind CSS, and WebGL principles.
+          Interact with physics live, test states, and copy JSX snippets directly into your projects.
         </p>
+
+        {/* Quick Metrics Bar */}
+        <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono text-xs">
+          <div className="p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)]">
+            <span className="text-[var(--muted)] block text-[10px] uppercase">TOTAL PRIMITIVES</span>
+            <span className="text-xl font-bold text-accent-cyan">105 Demos</span>
+          </div>
+          <div className="p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)]">
+            <span className="text-[var(--muted)] block text-[10px] uppercase">TAXONOMY</span>
+            <span className="text-xl font-bold text-accent-violet">10 Categories</span>
+          </div>
+          <div className="p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)]">
+            <span className="text-[var(--muted)] block text-[10px] uppercase">ANIMATION ENGINE</span>
+            <span className="text-xl font-bold text-accent-pink">Framer Motion</span>
+          </div>
+          <div className="p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)]">
+            <span className="text-[var(--muted)] block text-[10px] uppercase">FRAME TARGET</span>
+            <span className="text-xl font-bold text-emerald-400">60 FPS Hardware</span>
+          </div>
+        </div>
+
+        {/* Search & Category Filter Section */}
+        <div className="pt-6 space-y-4">
+          <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
+            {/* Search Input */}
+            <div className="relative flex-1 max-w-md">
+              <Search className="w-4 h-4 text-[var(--muted)] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                placeholder="Search 105 components, tags (e.g. spring, tilt, neon)..."
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl glass-panel border border-[var(--border)] text-sm font-mono text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:border-accent-cyan"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => handleSearchChange("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-[var(--muted)] hover:text-[var(--foreground)]"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            {/* Results count & page size */}
+            <div className="flex items-center gap-3 text-xs font-mono text-[var(--muted)]">
+              <span>
+                Showing {filteredComponents.length} of {ALL_COMPONENTS.length}
+              </span>
+              <div className="flex items-center gap-1 border border-[var(--border)] rounded-lg p-0.5 bg-[var(--surface-elevated)]">
+                {[12, 24, 48, 105].map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => {
+                      setItemsPerPage(size);
+                      setCurrentPage(1);
+                    }}
+                    className={`px-2 py-0.5 rounded text-[11px] ${
+                      itemsPerPage === size
+                        ? "bg-accent-violet text-white font-bold"
+                        : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                    }`}
+                  >
+                    {size === 105 ? "All" : size}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap gap-2 pt-1">
+            {COMPONENT_CATEGORIES.map((cat) => {
+              const isActive = selectedCategory === cat.id;
+              const count =
+                cat.id === "all"
+                  ? ALL_COMPONENTS.length
+                  : ALL_COMPONENTS.filter((c) => c.category === cat.id).length;
+
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => handleCategoryChange(cat.id as ComponentCategory | "all")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all flex items-center gap-1.5 ${
+                    isActive
+                      ? "bg-accent-cyan text-slate-950 font-bold shadow-[0_0_12px_rgba(34,211,238,0.4)]"
+                      : "glass-button text-[var(--muted)] hover:text-[var(--foreground)]"
+                  }`}
+                >
+                  <span>{cat.icon}</span>
+                  <span>{cat.label}</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                      isActive ? "bg-black/20 text-slate-950" : "bg-[var(--surface-elevated)] text-[var(--muted)]"
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* Components Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {componentDemos.map((item, idx) => (
-          <GlassCard key={item.title} glow="violet" className="flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <Badge variant="cyan">{item.category}</Badge>
-                <button
-                  onClick={() => copyCode(item.code, idx)}
-                  className="p-1.5 rounded-lg glass-button text-[var(--muted)] hover:text-[var(--foreground)] flex items-center gap-1 text-[11px] font-mono"
-                  title="Copy Component Code"
-                >
-                  {copiedIndex === idx ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-500" />
-                      <span className="text-emerald-500">Copied</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5" />
-                      <span>Copy JSX</span>
-                    </>
-                  )}
-                </button>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {paginatedComponents.map((item) => {
+          const isCopied = copiedId === item.id;
+          const isCodeExpanded = expandedCodeId === item.id;
+
+          return (
+            <GlassCard
+              key={item.id}
+              glow="violet"
+              className="flex flex-col justify-between group relative overflow-hidden"
+            >
+              <div>
+                {/* Header: Category Badge & Actions */}
+                <div className="flex items-center justify-between mb-3">
+                  <Badge variant="cyan">{item.category}</Badge>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() =>
+                        setExpandedCodeId(isCodeExpanded ? null : item.id)
+                      }
+                      className="p-1.5 rounded-lg glass-button text-[var(--muted)] hover:text-accent-pink transition-colors text-[11px] font-mono flex items-center gap-1"
+                      title={isCodeExpanded ? "Hide Code" : "Inspect Code"}
+                    >
+                      <Code2 className="w-3.5 h-3.5 text-accent-pink" />
+                    </button>
+                    <button
+                      onClick={() => copyCode(item.code, item.id)}
+                      className="p-1.5 rounded-lg glass-button text-[var(--muted)] hover:text-[var(--foreground)] flex items-center gap-1 text-[11px] font-mono transition-colors"
+                      title="Copy JSX Snippet"
+                    >
+                      {isCopied ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                          <span className="text-emerald-400 text-[10px]">Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span className="text-[10px]">Copy</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <h3 className="font-mono text-base font-bold text-[var(--foreground)] group-hover:text-accent-cyan transition-colors mb-1">
+                  {item.title}
+                </h3>
+                <p className="font-mono text-xs text-[var(--muted)] mb-4 leading-relaxed line-clamp-2">
+                  {item.description}
+                </p>
+
+                {/* Interactive Live Demo Surface */}
+                <div className="min-h-[140px] rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)] p-4 mb-4 flex items-center justify-center relative overflow-hidden">
+                  {item.demo}
+                </div>
               </div>
 
-              <h3 className="font-mono text-lg font-bold text-[var(--foreground)] mb-1">
-                {item.title}
-              </h3>
-              <p className="font-mono text-xs text-[var(--muted)] mb-6">
-                {item.description}
-              </p>
+              {/* Tags & Code Expand Drawer */}
+              <div>
+                <div className="flex flex-wrap gap-1 mb-3">
+                  {item.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-0.5 rounded text-[10px] font-mono bg-black/10 dark:bg-white/5 text-[var(--muted)] border border-[var(--border)]"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
 
-              {/* Interactive Showcase Box */}
-              <div className="rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)] p-4 mb-4">
-                {item.demo}
+                {isCodeExpanded && (
+                  <div className="mt-2 p-3 rounded-lg bg-[var(--card-bg)] border border-[var(--border)] font-mono text-[11px] text-accent-cyan overflow-x-auto max-h-36">
+                    <pre>
+                      <code>{item.code}</code>
+                    </pre>
+                  </div>
+                )}
               </div>
-            </div>
-
-            {/* Code Snippet */}
-            <div className="p-3 rounded-lg bg-[var(--card-bg)] border border-[var(--border)] font-mono text-[11px] text-accent-cyan overflow-x-auto">
-              <code>{item.code}</code>
-            </div>
-          </GlassCard>
-        ))}
+            </GlassCard>
+          );
+        })}
       </div>
+
+      {/* Empty State */}
+      {filteredComponents.length === 0 && (
+        <div className="text-center py-20 glass-panel rounded-3xl border border-[var(--border)] max-w-md mx-auto space-y-3">
+          <Sparkles className="w-10 h-10 text-accent-cyan mx-auto animate-pulse" />
+          <h3 className="font-mono text-lg font-bold text-[var(--foreground)]">
+            No components match query
+          </h3>
+          <p className="text-xs font-mono text-[var(--muted)]">
+            Try adjusting your search terms or clearing the category filter.
+          </p>
+          <button
+            onClick={() => {
+              setSelectedCategory("all");
+              setSearchQuery("");
+            }}
+            className="px-4 py-1.5 rounded-lg font-mono text-xs glass-button text-[var(--foreground)] hover:border-accent-cyan"
+          >
+            Clear Filters
+          </button>
+        </div>
+      )}
+
+      {/* Pagination Bar */}
+      {totalPages > 1 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-[var(--border)] font-mono text-xs">
+          <span className="text-[var(--muted)]">
+            Page {currentPage} of {totalPages} ({filteredComponents.length} items)
+          </span>
+
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="p-2 rounded-lg glass-button text-[var(--foreground)] disabled:opacity-30 disabled:cursor-not-allowed"
+              title="Previous Page"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-8 h-8 rounded-lg text-xs font-bold transition-all ${
+                  currentPage === page
+                    ? "bg-accent-violet text-white shadow-glow"
+                    : "glass-button text-[var(--muted)] hover:text-[var(--foreground)]"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="p-2 rounded-lg glass-button text-[var(--foreground)] disabled:opacity-30 disabled:cursor-not-allowed"
+              title="Next Page"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

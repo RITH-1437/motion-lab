@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 
 export default function HomePage() {
+  const [heroPresetId, setHeroPresetId] = useState<string>("solar-system");
   const [heroSpeed, setHeroSpeed] = useState(1.0);
   const [heroWireframe, setHeroWireframe] = useState(false);
   const [heroColorIndex, setHeroColorIndex] = useState(0);
@@ -137,36 +138,79 @@ export default function HomePage() {
             <div className="w-full h-full rounded-3xl glass-panel border border-white/10 overflow-hidden relative shadow-2xl flex flex-col">
               
               {/* Top Viewport Header */}
-              <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 bg-black/30 backdrop-blur-md z-20">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                  <span className="ml-2 font-mono text-xs text-slate-400">
-                    viewport // quantum-torus-01
-                  </span>
+              <div className="flex flex-wrap items-center justify-between px-4 py-2.5 border-b border-white/10 bg-black/40 backdrop-blur-md z-20 gap-2">
+                <div className="flex items-center gap-1.5 p-0.5 rounded-lg border border-white/10 bg-black/40">
+                  <button
+                    type="button"
+                    onClick={() => setHeroPresetId("solar-system")}
+                    className={`px-2.5 py-1 rounded text-[11px] font-mono transition-all ${
+                      heroPresetId === "solar-system"
+                        ? "border border-cyan-400 bg-cyan-950/80 text-cyan-300 font-semibold shadow-[0_0_8px_rgba(34,211,238,0.3)]"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    🪐 Solar System
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setHeroPresetId("torus-quantum")}
+                    className={`px-2.5 py-1 rounded text-[11px] font-mono transition-all ${
+                      heroPresetId === "torus-quantum"
+                        ? "border border-violet-500 bg-violet-950/80 text-violet-300 font-semibold shadow-[0_0_8px_rgba(139,92,246,0.3)]"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    🔬 Quantum Torus
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setHeroPresetId("fluid-wave")}
+                    className={`px-2.5 py-1 rounded text-[11px] font-mono transition-all ${
+                      heroPresetId === "fluid-wave"
+                        ? "border border-pink-500 bg-pink-950/80 text-pink-300 font-semibold shadow-[0_0_8px_rgba(236,72,153,0.3)]"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    🌊 Fluid Mesh
+                  </button>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge variant="cyan">Interactive 3D</Badge>
+                  <Badge variant={heroPresetId === "solar-system" ? "cyan" : "violet"}>
+                    {heroPresetId === "solar-system" ? "Flagship 3D" : "Interactive 3D"}
+                  </Badge>
                 </div>
               </div>
 
               {/* 3D WebGL Canvas */}
               <div className="flex-1 w-full h-full relative cursor-grab active:cursor-grabbing">
                 <DynamicSceneCanvas
-                  presetId="torus-quantum"
+                  presetId={heroPresetId}
                   config={heroConfig}
                   isPlaying={true}
                   enableOrbit={true}
-                  showParticles={true}
-                  autoRotate={true}
+                  showParticles={heroPresetId !== "solar-system"}
+                  autoRotate={heroPresetId !== "solar-system"}
                 />
 
                 {/* Floating instruction pill */}
                 <div className="absolute bottom-4 left-4 z-20 pointer-events-none bg-[var(--surface-elevated)]/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-[var(--border)] text-[11px] font-mono text-[var(--muted)] flex items-center gap-1.5">
                   <Orbit className="w-3.5 h-3.5 text-accent-cyan animate-spin-slow" />
-                  <span>Drag to rotate • Scroll to zoom</span>
+                  <span>
+                    {heroPresetId === "solar-system"
+                      ? "Orbiting Sun, Earth, Saturn & Moon • Drag to rotate"
+                      : "Drag to rotate • Scroll to zoom"}
+                  </span>
                 </div>
+
+                {heroPresetId === "solar-system" && (
+                  <Link
+                    href="/playground?preset=solar-system"
+                    className="absolute top-4 right-4 z-20 px-3 py-1.5 rounded-lg font-mono text-[11px] font-semibold uppercase tracking-wider bg-cyan-500 text-slate-950 hover:bg-cyan-400 shadow-[0_0_14px_rgba(34,211,238,0.5)] transition-all flex items-center gap-1"
+                  >
+                    <span>Full Explorer</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                )}
               </div>
 
               {/* Bottom Quick-Tweak Bar */}

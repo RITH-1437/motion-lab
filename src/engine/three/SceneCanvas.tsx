@@ -39,8 +39,8 @@ function SceneInner({
 
       <Float
         speed={1.5 * config.speed}
-        rotationIntensity={0.6 * config.rotationSpeed}
-        floatIntensity={0.8}
+        rotationIntensity={presetId === "solar-system" ? 0.1 : 0.6 * config.rotationSpeed}
+        floatIntensity={presetId === "solar-system" ? 0.2 : 0.8}
       >
         <ProceduralMesh
           type={presetId}
@@ -59,8 +59,8 @@ function SceneInner({
           enablePan={false}
           autoRotate={autoRotate}
           autoRotateSpeed={1.0 * config.rotationSpeed}
-          minDistance={2.5}
-          maxDistance={8}
+          minDistance={2.0}
+          maxDistance={presetId === "solar-system" ? 12 : 8}
           dampingFactor={0.05}
         />
       )}
@@ -94,7 +94,10 @@ export function SceneCanvas({
   return (
     <div className={`relative ${className}`}>
       <Canvas
-        camera={{ position: [0, 0, 4.5], fov: config.cameraFov || 45 }}
+        camera={{
+          position: presetId === "solar-system" ? [0, 3.2, 5.8] : [0, 0, 4.5],
+          fov: config.cameraFov || 45,
+        }}
         gl={{
           antialias: true,
           alpha: true,

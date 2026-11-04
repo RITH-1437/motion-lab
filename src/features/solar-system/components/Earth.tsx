@@ -113,8 +113,8 @@ export function Earth({
               emissiveMap={nightTexture}
               emissive="#FFDD88"
               emissiveIntensity={0.65}
-              roughness={0.4}
-              metalness={0.1}
+              roughness={0.25}
+              metalness={0.15}
             />
           </mesh>
 
