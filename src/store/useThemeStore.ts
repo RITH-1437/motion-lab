@@ -11,25 +11,8 @@ interface ThemeState {
 export const useThemeStore = create<ThemeState>((set) => ({
   theme: "dark",
   toggleTheme: () =>
-    set((state) => {
-      const nextTheme = state.theme === "dark" ? "light" : "dark";
-      if (typeof document !== "undefined") {
-        if (nextTheme === "light") {
-          document.documentElement.classList.add("light");
-        } else {
-          document.documentElement.classList.remove("light");
-        }
-      }
-      return { theme: nextTheme };
-    }),
-  setTheme: (theme) => {
-    if (typeof document !== "undefined") {
-      if (theme === "light") {
-        document.documentElement.classList.add("light");
-      } else {
-        document.documentElement.classList.remove("light");
-      }
-    }
-    set({ theme });
-  },
+    set((state) => ({
+      theme: state.theme === "dark" ? "light" : "dark",
+    })),
+  setTheme: (theme) => set({ theme }),
 }));

@@ -5,7 +5,7 @@ import { Terminal, Activity, ArrowUpRight } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/5 bg-canvas-surface/80 backdrop-blur-md pt-16 pb-12 overflow-hidden">
+    <footer className="relative border-t border-[var(--border)] bg-[var(--surface)] backdrop-blur-md pt-16 pb-12 overflow-hidden">
       {/* Ambient gradient top glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-accent-violet/50 to-transparent" />
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 bg-accent-violet/10 rounded-full blur-3xl pointer-events-none" />
@@ -15,7 +15,7 @@ export function Footer() {
           {/* Col 1: Brand & Status */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-lg font-bold tracking-wider uppercase text-white">
+              <span className="font-mono text-lg font-bold tracking-wider uppercase text-[var(--foreground)]">
                 MOTION<span className="text-accent-cyan">LAB</span>
               </span>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -23,7 +23,7 @@ export function Footer() {
                 SYSTEM ONLINE
               </span>
             </div>
-            <p className="text-sm text-slate-400 max-w-md leading-relaxed">
+            <p className="text-sm text-[var(--muted)] max-w-md leading-relaxed">
               An open-ended digital physics & creative engineering sanctuary.
               Experience high-fidelity 3D meshes, procedural shaders, and fluid scroll-driven choreography.
             </p>
@@ -41,10 +41,10 @@ export function Footer() {
 
           {/* Col 2: Navigation */}
           <div className="space-y-3">
-            <h4 className="font-mono text-xs uppercase tracking-wider text-slate-300 font-semibold">
+            <h4 className="font-mono text-xs uppercase tracking-wider text-[var(--foreground)] font-semibold">
               Exploration
             </h4>
-            <ul className="space-y-2 text-sm text-slate-400">
+            <ul className="space-y-2 text-sm text-[var(--muted)]">
               {siteConfig.navItems.map((item) => (
                 <li key={item.href}>
                   <Link
@@ -61,7 +61,7 @@ export function Footer() {
 
           {/* Col 3: Engine Architecture */}
           <div className="space-y-3">
-            <h4 className="font-mono text-xs uppercase tracking-wider text-slate-300 font-semibold">
+            <h4 className="font-mono text-xs uppercase tracking-wider text-[var(--foreground)] font-semibold">
               Core Tech
             </h4>
             <div className="flex flex-wrap gap-2">
@@ -77,7 +77,7 @@ export function Footer() {
               ].map((tech) => (
                 <span
                   key={tech}
-                  className="px-2.5 py-1 rounded-md text-[11px] font-mono glass-panel text-slate-300 border border-white/5"
+                  className="px-2.5 py-1 rounded-md text-[11px] font-mono glass-panel text-[var(--foreground)] border border-[var(--border)]"
                 >
                   {tech}
                 </span>
@@ -87,7 +87,7 @@ export function Footer() {
         </div>
 
         {/* Bottom copyright & attribution */}
-        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
+        <div className="pt-8 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[var(--muted)]">
           <p>© {new Date().getFullYear()} MOTION LAB. Designed for Creative Coders & Digital Visionaries.</p>
           <div className="flex items-center gap-6">
             <Link

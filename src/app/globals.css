@@ -2,7 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* =====================================================
+   DESIGN TOKENS — Dark mode is the default (:root)
+   Light mode is activated by adding class="light" on <html>
+   Tailwind dark: variants also work via darkMode: "class"
+   ===================================================== */
+
+:root,
+.dark {
   --background: #080a12;
   --foreground: #f8fafc;
   --surface: #101421;
@@ -13,28 +20,46 @@
   --accent-violet: #8b5cf6;
   --accent-cyan: #22d3ee;
   --accent-pink: #ec4899;
+  --accent-emerald: #10b981;
   --muted: #94a3b8;
+  --muted-fg: #64748b;
+  --border: rgba(255, 255, 255, 0.08);
+  --card-bg: rgba(16, 20, 33, 0.8);
+  --navbar-bg: rgba(8, 10, 18, 0.7);
 }
 
 .light {
   --background: #f8fafc;
-  --foreground: #090d16;
+  --foreground: #0f172a;
   --surface: #ffffff;
   --surface-elevated: #f1f5f9;
-  --glass-fill: rgba(255, 255, 255, 0.7);
+  --glass-fill: rgba(255, 255, 255, 0.72);
   --glass-stroke: rgba(0, 0, 0, 0.08);
-  --glass-blur: 16px;
+  --glass-blur: 20px;
   --accent-violet: #7c3aed;
-  --accent-cyan: #06b6d4;
+  --accent-cyan: #0891b2;
   --accent-pink: #db2777;
+  --accent-emerald: #059669;
   --muted: #64748b;
+  --muted-fg: #94a3b8;
+  --border: rgba(0, 0, 0, 0.08);
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --navbar-bg: rgba(248, 250, 252, 0.8);
 }
 
-* {
+/* =====================================================
+   BASE RESETS
+   ===================================================== */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html,
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -42,36 +67,38 @@ body {
   color: var(--foreground);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* Custom Scrollbar */
+/* =====================================================
+   CUSTOM SCROLLBAR
+   ===================================================== */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
-
 ::-webkit-scrollbar-track {
   background: var(--background);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.3);
+  background: rgba(139, 92, 246, 0.35);
   border-radius: 9999px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.6);
+  background: rgba(139, 92, 246, 0.65);
 }
 
-/* Glassmorphic Utilities */
+/* =====================================================
+   GLASSMORPHIC UTILITIES
+   ===================================================== */
 @layer components {
   .glass-panel {
     background: var(--glass-fill);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-stroke);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.18);
+    transition: background 0.3s ease, border-color 0.3s ease;
   }
 
   .glass-panel-interactive {
@@ -79,7 +106,7 @@ body {
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-stroke);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.18);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -90,16 +117,23 @@ body {
   }
 
   .glass-button {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--glass-fill);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-stroke);
     transition: all 0.25s ease;
   }
 
   .glass-button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(139, 92, 246, 0.5);
-    box-shadow: 0 0 20px -5px rgba(139, 92, 246, 0.4);
+    background: rgba(139, 92, 246, 0.1);
+    border-color: rgba(139, 92, 246, 0.45);
+    box-shadow: 0 0 18px -4px rgba(139, 92, 246, 0.35);
+  }
+
+  /* Light theme adjustments for glass */
+  .light .glass-button:hover {
+    background: rgba(124, 58, 237, 0.08);
+    border-color: rgba(124, 58, 237, 0.4);
   }
 
   .neon-text-violet {
@@ -110,19 +144,75 @@ body {
     text-shadow: 0 0 20px rgba(34, 211, 238, 0.5);
   }
 
-  .gradient-mask-b {
-    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-  }
-
   .grid-pattern {
     background-size: 40px 40px;
-    background-image: 
+    background-image:
       linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   }
+
+  .light .grid-pattern {
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  }
+
+  /* Light-mode text overrides for components that use hardcoded dark colors */
+  .light .text-slate-400 {
+    color: #475569;
+  }
+
+  .light .text-slate-500 {
+    color: #64748b;
+  }
+
+  .light .text-slate-300 {
+    color: #334155;
+  }
+
+  .light .border-white\/10 {
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .light .border-white\/5 {
+    border-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .light .bg-white\/5 {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  .light .bg-white\/\[0\.03\] {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  .light .bg-canvas-dark\/60 {
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+
+  .light .bg-canvas-dark\/80 {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  .light .bg-canvas-surface\/80 {
+    background-color: rgba(241, 245, 249, 0.85);
+  }
+
+  .light .bg-canvas-surface\/40 {
+    background-color: rgba(248, 250, 252, 0.6);
+  }
+
+  .light .bg-black\/30,
+  .light .bg-black\/40,
+  .light .bg-black\/60,
+  .light .bg-black\/80 {
+    background-color: rgba(255, 255, 255, 0.85);
+  }
 }
 
-/* Reduced motion preference */
+/* =====================================================
+   REDUCED MOTION PREFERENCE — Mandatory accessibility
+   ===================================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

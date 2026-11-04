@@ -27,7 +27,7 @@ export function Navbar() {
       className={cn(
         "fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-4 px-4 sm:px-8",
         scrolled
-          ? "bg-canvas-dark/70 backdrop-blur-xl border-b border-white/5 py-3 shadow-lg"
+          ? "bg-[var(--navbar-bg)] backdrop-blur-xl border-b border-[var(--border)] py-3 shadow-lg"
           : "bg-transparent"
       )}
     >
@@ -135,8 +135,8 @@ export function Navbar() {
                   className={cn(
                     "flex items-center justify-between p-3 rounded-xl font-mono text-sm tracking-wide transition-all",
                     isActive
-                      ? "bg-accent-violet/20 border border-accent-cyan/30 text-white"
-                      : "text-slate-400 hover:text-white hover:bg-white/5"
+                      ? "bg-accent-violet/20 border border-accent-cyan/30 text-[var(--foreground)]"
+                      : "text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-black/5"
                   )}
                 >
                   <span>{item.name}</span>
