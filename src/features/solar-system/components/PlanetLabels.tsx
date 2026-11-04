@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useThree } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 
 interface PlanetLabelProps {
@@ -12,6 +13,19 @@ interface PlanetLabelProps {
 }
 
 export function PlanetLabel({ name, color, yOffset, isSelected, onClick }: PlanetLabelProps) {
+  const { gl } = useThree();
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (gl?.domElement?.parentElement) {
+      setReady(true);
+    }
+  }, [gl]);
+
+  if (!ready || !gl?.domElement?.parentElement) {
+    return null;
+  }
+
   return (
     <Html
       position={[0, yOffset, 0]}

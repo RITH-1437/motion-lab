@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
@@ -9,10 +9,17 @@ import { useSolarSimulation } from "../hooks/useSolarSimulation";
 import { PLANETS_DATA } from "../config/planets";
 
 export function CameraController() {
-  const { camera, scene } = useThree();
+  const { camera, scene, gl } = useThree();
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const { config, targetPosition, targetLookAt } = useSolarSimulation();
   const { selectedPlanetId } = config;
+  const [controlsReady, setControlsReady] = useState(false);
+
+  useEffect(() => {
+    if (gl?.domElement) {
+      setControlsReady(true);
+    }
+  }, [gl]);
 
   const isTransitioningRef = useRef(false);
   const targetCamPos = useRef(new THREE.Vector3(0, 45, 65));
@@ -83,9 +90,14 @@ export function CameraController() {
     }
   });
 
+  if (!controlsReady || !gl?.domElement) {
+    return null;
+  }
+
   return (
     <OrbitControls
       ref={controlsRef}
+      domElement={gl.domElement}
       enableDamping
       dampingFactor={0.06}
       minDistance={1.4}

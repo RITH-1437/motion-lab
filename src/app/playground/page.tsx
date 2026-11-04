@@ -2,10 +2,26 @@
 
 import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
 import { usePlaygroundStore, PRESETS } from "@/store/usePlaygroundStore";
 import { DynamicSceneCanvas } from "@/engine/three/DynamicCanvas";
-import { SolarSystemExplorer } from "@/features/solar-system";
 import { Badge } from "@/components/ui/Badge";
+
+const DynamicSolarSystemExplorer = dynamic(
+  () =>
+    import("@/features/solar-system").then((mod) => mod.SolarSystemExplorer),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[85vh] rounded-2xl border border-[var(--border)] bg-[#030712] flex flex-col items-center justify-center gap-3">
+        <div className="w-10 h-10 rounded-full border-2 border-cyan-400 border-t-transparent animate-spin" />
+        <p className="text-xs font-mono text-cyan-400 tracking-wider uppercase">
+          Initializing Orbital Mechanics Engine...
+        </p>
+      </div>
+    ),
+  }
+);
 import {
   Play,
   Pause,
@@ -205,7 +221,7 @@ function PlaygroundContent() {
       {/* Main Interactive Studio Body */}
       {currentPreset.id === "solar-system" ? (
         <div className="flex-1 p-2 sm:p-4 bg-[#030712] flex flex-col">
-          <SolarSystemExplorer />
+          <DynamicSolarSystemExplorer />
         </div>
       ) : (
         <div className="flex-1 relative flex flex-col lg:flex-row overflow-hidden">
