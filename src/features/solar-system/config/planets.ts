@@ -108,7 +108,7 @@ export const PLANETS_DATA: PlanetData[] = [
     visualRadius: 0.32,
     orbitDistance: 1.8, // Relative to Earth
     orbitSpeedFactor: 13.3,
-    color: "#D4D4D8",
+    color: "#F1F5F9",
     description:
       "Earth's fifth-largest natural satellite in the solar system, tidally locked and responsible for oceanic tides and stabilizing Earth's axial tilt.",
     funFacts: [

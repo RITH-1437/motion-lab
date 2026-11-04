@@ -330,37 +330,107 @@ export function getEarthCloudsTexture(): THREE.CanvasTexture {
 }
 
 /**
- * Procedural Moon Texture (Craters & Lunar Maria Basins)
+ * Procedural Moon Texture (Crisp White Highlands, Lunar Gray Maria & Impact Craters)
  */
 export function getMoonTexture(): THREE.CanvasTexture {
-  return createCachedTexture("moon", 512, 256, (ctx, w, h) => {
-    ctx.fillStyle = "#8a8a8e";
+  return createCachedTexture("moon", 1024, 512, (ctx, w, h) => {
+    // 1. Lunar Highlands Base: Bright White and Silvery Off-White Anorthosite Crust
+    ctx.fillStyle = "#F8FAFC";
     ctx.fillRect(0, 0, w, h);
 
-    // Dark lunar maria (basalt plains)
-    ctx.fillStyle = "#48484a";
-    for (let i = 0; i < 8; i++) {
-      const x = w * (0.2 + Math.random() * 0.6);
-      const y = h * (0.2 + Math.random() * 0.6);
+    // Subtle silvery-gray mottled texture across highlands
+    for (let i = 0; i < 200; i++) {
+      ctx.fillStyle = `rgba(203, 213, 225, ${0.15 + Math.random() * 0.25})`; // Cool slate-gray
       ctx.beginPath();
-      ctx.ellipse(x, y, 40 + Math.random() * 50, 25 + Math.random() * 35, 0, 0, Math.PI * 2);
+      ctx.arc(Math.random() * w, Math.random() * h, 10 + Math.random() * 35, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    // Impact craters with rims
-    for (let i = 0; i < 150; i++) {
-      const x = Math.random() * w;
-      const y = Math.random() * h;
-      const r = 2 + Math.random() * 10;
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.stroke();
+    // 2. Lunar Maria Basalt Plains (Prominent Cool Lunar Gray Formations)
+    // Famous lunar seas: Oceanus Procellarum, Mare Imbrium, Mare Serenitatis, Mare Tranquillitatis
+    const maria = [
+      { x: w * 0.35, y: h * 0.38, rx: 110, ry: 75, angle: -0.2 }, // Oceanus Procellarum
+      { x: w * 0.42, y: h * 0.28, rx: 75, ry: 60, angle: 0.1 },  // Mare Imbrium
+      { x: w * 0.58, y: h * 0.32, rx: 55, ry: 45, angle: 0 },    // Mare Serenitatis
+      { x: w * 0.62, y: h * 0.48, rx: 65, ry: 50, angle: 0.2 },  // Mare Tranquillitatis
+      { x: w * 0.72, y: h * 0.45, rx: 45, ry: 40, angle: -0.1 }, // Mare Fecunditatis
+      { x: w * 0.48, y: h * 0.62, rx: 50, ry: 40, angle: 0.3 },  // Mare Nubium
+      { x: w * 0.78, y: h * 0.32, rx: 35, ry: 35, angle: 0 },    // Mare Crisium
+    ];
 
-      ctx.fillStyle = "rgba(40, 40, 40, 0.5)";
+    maria.forEach(({ x, y, rx, ry, angle }) => {
+      // Outer soft transition gray
+      ctx.fillStyle = "#64748B"; // Slate-500 gray
       ctx.beginPath();
-      ctx.arc(x, y, r * 0.8, 0, Math.PI * 2);
+      ctx.ellipse(x, y, rx, ry, angle, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Deep inner basalt volcanic gray
+      ctx.fillStyle = "#475569"; // Slate-600 gray
+      ctx.beginPath();
+      ctx.ellipse(x, y, rx * 0.75, ry * 0.7, angle, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // 3. Impact Craters with Bright White Ejecta Rays (e.g., Tycho & Copernicus)
+    const prominentCraters = [
+      { x: w * 0.5, y: h * 0.72, r: 16, rays: true }, // Tycho Crater in the south
+      { x: w * 0.38, y: h * 0.44, r: 14, rays: true }, // Copernicus Crater
+      { x: w * 0.28, y: h * 0.36, r: 12, rays: true }, // Kepler Crater
+      { x: w * 0.65, y: h * 0.28, r: 10, rays: false },
+      { x: w * 0.54, y: h * 0.54, r: 8, rays: false },
+    ];
+
+    prominentCraters.forEach(({ x, y, r, rays }) => {
+      // White radiating ejecta streaks extending across gray maria
+      if (rays) {
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
+        ctx.lineWidth = 1.5;
+        for (let a = 0; a < 16; a++) {
+          const theta = (a / 16) * Math.PI * 2 + (Math.random() - 0.5) * 0.15;
+          const len = 60 + Math.random() * 90;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + Math.cos(theta) * len, y + Math.sin(theta) * len);
+          ctx.stroke();
+        }
+      }
+
+      // Bright white illuminated rim
+      ctx.fillStyle = "#FFFFFF";
+      ctx.beginPath();
+      ctx.arc(x, y, r + 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Inner gray crater basin
+      ctx.fillStyle = "#64748B";
+      ctx.beginPath();
+      ctx.arc(x + 1, y + 1, r * 0.75, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Central white rebound peak
+      ctx.fillStyle = "#FFFFFF";
+      ctx.beginPath();
+      ctx.arc(x, y, r * 0.25, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // 4. Hundreds of Micro Impact Craters across the white and gray surface
+    for (let i = 0; i < 240; i++) {
+      const cx = Math.random() * w;
+      const cy = Math.random() * h;
+      const cr = 1.5 + Math.random() * 6;
+
+      // Bright white sunward rim
+      ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+      ctx.beginPath();
+      ctx.arc(cx - 0.6, cy - 0.6, cr, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Gray crater interior
+      ctx.fillStyle = "rgba(71, 85, 105, 0.85)"; // Cool slate gray
+      ctx.beginPath();
+      ctx.arc(cx + 0.5, cy + 0.5, cr * 0.75, 0, Math.PI * 2);
       ctx.fill();
     }
   });

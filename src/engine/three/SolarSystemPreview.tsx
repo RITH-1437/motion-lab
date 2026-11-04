@@ -4,7 +4,10 @@ import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { AnimationPresetConfig } from "@/types";
-import { getEarthDayTexture } from "@/features/solar-system/textures/proceduralTextures";
+import {
+  getEarthDayTexture,
+  getMoonTexture,
+} from "@/features/solar-system/textures/proceduralTextures";
 
 interface SolarSystemPreviewProps {
   config: AnimationPresetConfig;
@@ -29,6 +32,7 @@ export function SolarSystemPreview({ config, isPlaying = true }: SolarSystemPrev
 
   const saturnRingRef = useRef<THREE.Mesh>(null);
   const earthDayTex = useMemo(() => getEarthDayTexture(), []);
+  const moonTex = useMemo(() => getMoonTexture(), []);
 
   // Scaled orbits suited for the preview viewport
   const orbits = useMemo(
@@ -168,11 +172,11 @@ export function SolarSystemPreview({ config, isPlaying = true }: SolarSystemPrev
               side={THREE.BackSide}
             />
           </mesh>
-          {/* Orbiting Moon */}
+          {/* Orbiting Moon with White + Gray Lunar Surface */}
           <group ref={moonOrbit}>
             <mesh position={[orbits.moon, 0.05, 0]}>
               <sphereGeometry args={[0.045, 12, 12]} />
-              <meshStandardMaterial color="#E2E8F0" roughness={0.9} />
+              <meshStandardMaterial map={moonTex} color="#FFFFFF" roughness={0.9} />
             </mesh>
           </group>
         </group>

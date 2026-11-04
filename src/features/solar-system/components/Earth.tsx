@@ -158,8 +158,9 @@ export function Earth({
                 <sphereGeometry args={[radius * 0.27, 32, 32]} />
                 <meshStandardMaterial
                   map={moonTexture}
-                  roughness={0.9}
-                  metalness={0.05}
+                  color="#FFFFFF"
+                  roughness={0.92}
+                  metalness={0.08}
                 />
               </mesh>
             </group>
