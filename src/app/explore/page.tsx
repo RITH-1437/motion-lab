@@ -44,10 +44,10 @@ export default function ExplorePage() {
       {/* Page Header */}
       <div className="mb-12 space-y-4">
         <Badge variant="cyan">Interactive Gallery</Badge>
-        <h1 className="text-4xl sm:text-5xl font-extrabold font-mono uppercase tracking-tight text-white">
+        <h1 className="text-4xl sm:text-5xl font-extrabold font-mono uppercase tracking-tight text-[var(--foreground)]">
           Explore Animation Labs
         </h1>
-        <p className="text-slate-400 text-sm sm:text-base max-w-2xl leading-relaxed">
+        <p className="text-[var(--muted)] text-sm sm:text-base max-w-2xl leading-relaxed">
           A curated taxonomy of spatial 3D meshes, particle physics, liquid shaders, and kinetic typography.
           Click any experiment to inspect in the live 3D playground or edit code in Monaco.
         </p>
@@ -56,17 +56,17 @@ export default function ExplorePage() {
         <div className="pt-6 flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
           {/* Search Box */}
           <div className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Search className="w-4 h-4 text-[var(--muted)] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search experiments, tags (e.g. GLSL, R3F, Physics)..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl glass-panel border border-white/10 text-sm font-mono text-white placeholder:text-slate-500 focus:outline-none focus:border-accent-cyan/50"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl glass-panel border border-[var(--border)] text-sm font-mono text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:border-accent-cyan/50"
             />
           </div>
 
-          <div className="text-xs font-mono text-slate-400 flex items-center gap-2">
+          <div className="text-xs font-mono text-[var(--muted)] flex items-center gap-2">
             <Filter className="w-3.5 h-3.5 text-accent-violet" />
             <span>Showing {filteredPresets.length} of {PRESETS.length} Experiments</span>
           </div>
@@ -132,15 +132,15 @@ export default function ExplorePage() {
               </div>
 
               {/* Title & Description */}
-              <h3 className="text-xl font-bold font-mono text-white group-hover:text-accent-cyan transition-colors mb-2">
+              <h3 className="text-xl font-bold font-mono text-[var(--foreground)] group-hover:text-accent-cyan transition-colors mb-2">
                 {preset.name}
               </h3>
-              <p className="text-xs text-slate-400 leading-relaxed mb-4">
+              <p className="text-xs text-[var(--muted)] leading-relaxed mb-4">
                 {preset.description}
               </p>
 
               {/* Interaction instructions */}
-              <div className="p-2.5 rounded-lg bg-white/[0.03] border border-white/5 text-[11px] font-mono text-slate-400 flex items-start gap-2 mb-4">
+              <div className="p-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border)] text-[11px] font-mono text-[var(--muted)] flex items-start gap-2 mb-4">
                 <HelpCircle className="w-3.5 h-3.5 text-accent-cyan flex-shrink-0 mt-0.5" />
                 <span>{preset.instructions}</span>
               </div>
@@ -150,7 +150,7 @@ export default function ExplorePage() {
                 {preset.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 text-slate-400 border border-white/5"
+                    className="px-2 py-0.5 rounded text-[10px] font-mono bg-[var(--surface-elevated)] text-[var(--muted)] border border-[var(--border)]"
                   >
                     #{tag}
                   </span>
@@ -183,8 +183,8 @@ export default function ExplorePage() {
       {filteredPresets.length === 0 && (
         <div className="text-center py-24 glass-panel rounded-3xl border border-white/10 max-w-md mx-auto">
           <Sparkles className="w-10 h-10 text-accent-cyan mx-auto mb-3 animate-pulse" />
-          <h3 className="font-mono text-lg font-bold text-white mb-1">No experiments found</h3>
-          <p className="text-slate-400 text-xs font-mono">
+          <h3 className="font-mono text-lg font-bold text-[var(--foreground)] mb-1">No experiments found</h3>
+          <p className="text-[var(--muted)] text-xs font-mono">
             Try adjusting your query or resetting category filters.
           </p>
           <button
@@ -192,7 +192,7 @@ export default function ExplorePage() {
               setSelectedCategory("all");
               setSearchQuery("");
             }}
-            className="mt-4 px-4 py-1.5 rounded-lg font-mono text-xs bg-white/10 text-white hover:bg-white/20 transition-colors"
+            className="mt-4 px-4 py-1.5 rounded-lg font-mono text-xs glass-button text-[var(--foreground)] hover:border-accent-cyan transition-colors"
           >
             Clear Filters
           </button>
@@ -201,11 +201,11 @@ export default function ExplorePage() {
 
       {/* Quick Preview Modal */}
       {activePreviewPreset && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="max-w-3xl w-full rounded-2xl glass-panel border border-white/20 overflow-hidden shadow-2xl flex flex-col">
-            <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="max-w-3xl w-full rounded-2xl glass-panel border border-[var(--border)] overflow-hidden shadow-2xl flex flex-col">
+            <div className="px-6 py-4 border-b border-[var(--border)] flex items-center justify-between">
               <div>
-                <h3 className="font-mono text-lg font-bold text-white">
+                <h3 className="font-mono text-lg font-bold text-[var(--foreground)]">
                   {activePreviewPreset.name}
                 </h3>
                 <span className="font-mono text-xs text-accent-cyan">
@@ -214,7 +214,7 @@ export default function ExplorePage() {
               </div>
               <button
                 onClick={() => setPreviewPresetId(null)}
-                className="text-slate-400 hover:text-white font-mono text-sm px-3 py-1 rounded-lg glass-button"
+                className="text-[var(--muted)] hover:text-[var(--foreground)] font-mono text-sm px-3 py-1 rounded-lg glass-button"
               >
                 Close ✕
               </button>
@@ -231,8 +231,8 @@ export default function ExplorePage() {
               />
             </div>
 
-            <div className="p-6 border-t border-white/10 flex items-center justify-between bg-black/40">
-              <p className="text-xs font-mono text-slate-400 max-w-md">
+            <div className="p-6 border-t border-[var(--border)] flex items-center justify-between bg-[var(--surface-elevated)]">
+              <p className="text-xs font-mono text-[var(--muted)] max-w-md">
                 {activePreviewPreset.instructions}
               </p>
               <Link

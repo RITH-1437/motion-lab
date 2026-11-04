@@ -88,8 +88,8 @@ export function ParticleSwarm({ config, isPlaying = true }: ParticleSwarmProps) 
   });
 
   return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
+    <points key={count} ref={pointsRef}>
+      <bufferGeometry key={count}>
         <bufferAttribute
           attach="attributes-position"
           count={positions.length / 3}

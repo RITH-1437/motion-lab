@@ -20,6 +20,22 @@ export const DEFAULT_PRESET_CONFIG: AnimationPresetConfig = {
 
 export const PRESETS: AnimationPreset[] = [
   {
+    id: "solar-system",
+    name: "3D Solar System Explorer",
+    category: "3d-objects",
+    categoryLabel: "Flagship Lab",
+    description: "Complete photorealistic 3D Solar System simulation with Sun, Earth Explorer, all 8 planets, Moon, rings, and asteroid belt.",
+    instructions: "Click any planet or use celestial body navigation to focus camera. Explore standalone Earth detail mode.",
+    tags: ["Solar System", "Astronomy", "Planets", "Earth Explorer", "Three.js", "R3F"],
+    config: {
+      ...DEFAULT_PRESET_CONFIG,
+      speed: 1.0,
+      scale: 1.0,
+      primaryColor: "#22D3EE",
+      secondaryColor: "#8B5CF6",
+    },
+  },
+  {
     id: "torus-quantum",
     name: "Quantum Torus Knot",
     category: "3d-objects",

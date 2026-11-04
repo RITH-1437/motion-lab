@@ -79,14 +79,14 @@ function TiltCard() {
       }}
       onMouseMove={handleMouse}
       onMouseLeave={handleLeave}
-      className="w-full h-56 rounded-2xl glass-panel border border-white/10 p-6 flex flex-col justify-between cursor-pointer relative"
+      className="w-full h-56 rounded-2xl glass-panel border border-[var(--border)] p-6 flex flex-col justify-between cursor-pointer relative"
     >
       <div style={{ transform: "translateZ(30px)" }}>
         <Badge variant="cyan">3D Tilt Physics</Badge>
-        <h4 className="font-mono text-base font-bold text-white mt-3">
+        <h4 className="font-mono text-base font-bold text-[var(--foreground)] mt-3">
           Spatial Parallax Card
         </h4>
-        <p className="font-mono text-xs text-slate-400 mt-1">
+        <p className="font-mono text-xs text-[var(--muted)] mt-1">
           Moves smoothly based on cursor coordinates with Euler spring transforms.
         </p>
       </div>
@@ -174,10 +174,10 @@ export default function ComponentsPage() {
       {/* Page Header */}
       <div className="mb-12 space-y-4">
         <Badge variant="violet">Design System & Primitives</Badge>
-        <h1 className="text-4xl sm:text-5xl font-extrabold font-mono uppercase tracking-tight text-white">
+        <h1 className="text-4xl sm:text-5xl font-extrabold font-mono uppercase tracking-tight text-[var(--foreground)]">
           Reusable Motion Components
         </h1>
-        <p className="text-slate-400 text-sm sm:text-base max-w-2xl leading-relaxed">
+        <p className="text-[var(--muted)] text-sm sm:text-base max-w-2xl leading-relaxed">
           Plug-and-play UI components built with Framer Motion, Tailwind CSS, and WebGL principles.
           Copy code directly or test the interactive physics live.
         </p>
@@ -192,13 +192,13 @@ export default function ComponentsPage() {
                 <Badge variant="cyan">{item.category}</Badge>
                 <button
                   onClick={() => copyCode(item.code, idx)}
-                  className="p-1.5 rounded-lg glass-button text-slate-400 hover:text-white flex items-center gap-1 text-[11px] font-mono"
+                  className="p-1.5 rounded-lg glass-button text-[var(--muted)] hover:text-[var(--foreground)] flex items-center gap-1 text-[11px] font-mono"
                   title="Copy Component Code"
                 >
                   {copiedIndex === idx ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-emerald-400">Copied</span>
+                      <Check className="w-3.5 h-3.5 text-emerald-500" />
+                      <span className="text-emerald-500">Copied</span>
                     </>
                   ) : (
                     <>
@@ -209,21 +209,21 @@ export default function ComponentsPage() {
                 </button>
               </div>
 
-              <h3 className="font-mono text-lg font-bold text-white mb-1">
+              <h3 className="font-mono text-lg font-bold text-[var(--foreground)] mb-1">
                 {item.title}
               </h3>
-              <p className="font-mono text-xs text-slate-400 mb-6">
+              <p className="font-mono text-xs text-[var(--muted)] mb-6">
                 {item.description}
               </p>
 
               {/* Interactive Showcase Box */}
-              <div className="rounded-xl bg-canvas-dark/60 border border-white/5 p-4 mb-4">
+              <div className="rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)] p-4 mb-4">
                 {item.demo}
               </div>
             </div>
 
             {/* Code Snippet */}
-            <div className="p-3 rounded-lg bg-black/40 border border-white/5 font-mono text-[11px] text-accent-cyan overflow-x-auto">
+            <div className="p-3 rounded-lg bg-[var(--card-bg)] border border-[var(--border)] font-mono text-[11px] text-accent-cyan overflow-x-auto">
               <code>{item.code}</code>
             </div>
           </GlassCard>

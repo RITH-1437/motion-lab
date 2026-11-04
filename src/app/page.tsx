@@ -107,18 +107,18 @@ export default function HomePage() {
             </div>
 
             {/* Quick Metrics Bar */}
-            <div className="pt-6 border-t border-white/10 grid grid-cols-3 gap-4 font-mono">
+            <div className="pt-6 border-t border-[var(--border)] grid grid-cols-3 gap-4 font-mono">
               <div>
-                <div className="text-2xl font-bold text-white">60 FPS</div>
-                <div className="text-xs text-slate-500 uppercase">GPU Target</div>
+                <div className="text-2xl font-bold text-[var(--foreground)]">60 FPS</div>
+                <div className="text-xs text-[var(--muted)] uppercase">GPU Target</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-accent-cyan">8 Labs</div>
-                <div className="text-xs text-slate-500 uppercase">Interactive Modes</div>
+                <div className="text-xs text-[var(--muted)] uppercase">Interactive Modes</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-accent-pink">100%</div>
-                <div className="text-xs text-slate-500 uppercase">Procedural Shaders</div>
+                <div className="text-xs text-[var(--muted)] uppercase">Procedural Shaders</div>
               </div>
             </div>
           </motion.div>
@@ -223,10 +223,10 @@ export default function HomePage() {
             <Badge variant="violet" className="mb-3">
               Laboratory Directory
             </Badge>
-            <h2 className="text-3xl sm:text-4xl font-extrabold font-mono uppercase tracking-tight text-white">
+            <h2 className="text-3xl sm:text-4xl font-extrabold font-mono uppercase tracking-tight text-[var(--foreground)]">
               Explore Specialized Labs
             </h2>
-            <p className="text-slate-400 text-sm sm:text-base mt-2 max-w-xl">
+            <p className="text-[var(--muted)] text-sm sm:text-base mt-2 max-w-xl">
               Categorized modules covering spatial 3D, physics particles, fluid shaders, and interactive kinetic elements.
             </p>
           </div>
@@ -255,10 +255,10 @@ export default function HomePage() {
                   <Badge variant="outline">{preset.categoryLabel}</Badge>
                 </div>
 
-                <h3 className="text-lg font-bold font-mono text-white group-hover:text-accent-cyan transition-colors mb-2">
+                <h3 className="text-lg font-bold font-mono text-[var(--foreground)] group-hover:text-accent-cyan transition-colors mb-2">
                   {preset.name}
                 </h3>
-                <p className="text-xs text-slate-400 leading-relaxed line-clamp-2 mb-4">
+                <p className="text-xs text-[var(--muted)] leading-relaxed line-clamp-2 mb-4">
                   {preset.description}
                 </p>
 
@@ -303,10 +303,10 @@ export default function HomePage() {
             <Badge variant="cyan" className="mb-3">
               Engine Topology
             </Badge>
-            <h2 className="text-3xl sm:text-4xl font-extrabold font-mono uppercase text-white">
+            <h2 className="text-3xl sm:text-4xl font-extrabold font-mono uppercase text-[var(--foreground)]">
               Dedicated Animation Engines
             </h2>
-            <p className="text-slate-400 text-sm sm:text-base mt-2">
+            <p className="text-[var(--muted)] text-sm sm:text-base mt-2">
               Each technology has an isolated, strict responsibility to prevent layout thrashing and maintain 60 FPS fluidity.
             </p>
           </div>
@@ -316,13 +316,13 @@ export default function HomePage() {
               <div className="w-12 h-12 rounded-xl bg-accent-violet/20 flex items-center justify-center text-accent-violet mb-4">
                 <Orbit className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold font-mono text-white mb-2">
+              <h3 className="text-xl font-bold font-mono text-[var(--foreground)] mb-2">
                 Three.js & R3F
               </h3>
-              <p className="text-sm text-slate-400 mb-4 leading-relaxed">
+              <p className="text-sm text-[var(--muted)] mb-4 leading-relaxed">
                 GPU-accelerated spatial meshes, custom GLSL vertex noise shaders, and instanced particle clouds running at hardware refresh rate.
               </p>
-              <ul className="space-y-1.5 text-xs font-mono text-slate-400">
+              <ul className="space-y-1.5 text-xs font-mono text-[var(--muted)]">
                 <li className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-violet" />
                   Procedural geometries
@@ -342,13 +342,13 @@ export default function HomePage() {
               <div className="w-12 h-12 rounded-xl bg-accent-cyan/20 flex items-center justify-center text-accent-cyan mb-4">
                 <Flame className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold font-mono text-white mb-2">
+              <h3 className="text-xl font-bold font-mono text-[var(--foreground)] mb-2">
                 GSAP & Lenis
               </h3>
-              <p className="text-sm text-slate-400 mb-4 leading-relaxed">
+              <p className="text-sm text-[var(--muted)] mb-4 leading-relaxed">
                 Complex timeline sequencing and inertia-driven smooth scrolling. Camera zooms and narrative reveals locked to scroll coordinates.
               </p>
-              <ul className="space-y-1.5 text-xs font-mono text-slate-400">
+              <ul className="space-y-1.5 text-xs font-mono text-[var(--muted)]">
                 <li className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan" />
                   ScrollTrigger scrubbers
@@ -368,13 +368,13 @@ export default function HomePage() {
               <div className="w-12 h-12 rounded-xl bg-accent-pink/20 flex items-center justify-center text-accent-pink mb-4">
                 <Sparkles className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold font-mono text-white mb-2">
+              <h3 className="text-xl font-bold font-mono text-[var(--foreground)] mb-2">
                 Framer Motion
               </h3>
-              <p className="text-sm text-slate-400 mb-4 leading-relaxed">
+              <p className="text-sm text-[var(--muted)] mb-4 leading-relaxed">
                 Micro-interactions, spring physics cursors, layout animations, and glass panel transitions reacting to user clicks and hovers.
               </p>
-              <ul className="space-y-1.5 text-xs font-mono text-slate-400">
+              <ul className="space-y-1.5 text-xs font-mono text-[var(--muted)]">
                 <li className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-pink" />
                   Spring-damped cursor

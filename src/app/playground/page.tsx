@@ -4,6 +4,7 @@ import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { usePlaygroundStore, PRESETS } from "@/store/usePlaygroundStore";
 import { DynamicSceneCanvas } from "@/engine/three/DynamicCanvas";
+import { SolarSystemExplorer } from "@/features/solar-system";
 import { Badge } from "@/components/ui/Badge";
 import {
   Play,
@@ -73,36 +74,69 @@ function PlaygroundContent() {
     <div className={`relative w-full ${isFullscreen ? "fixed inset-0 z-50 bg-canvas-dark" : "min-h-[calc(100vh-4rem)]"} flex flex-col`}>
       
       {/* Top Action Control Toolbar */}
-      <div className="border-b border-white/10 bg-canvas-surface/70 backdrop-blur-md px-4 sm:px-8 py-3 flex flex-wrap items-center justify-between gap-4 z-20">
+      <div className="border-b border-[var(--border)] bg-[var(--surface)]/80 backdrop-blur-md px-4 sm:px-8 py-3 flex flex-wrap items-center justify-between gap-4 z-20">
         
-        {/* Preset Selector Dropdown */}
-        <div className="flex items-center gap-3">
-          <label htmlFor="preset-select" className="text-xs font-mono uppercase text-slate-400">
-            Active Lab:
-          </label>
-          <select
-            id="preset-select"
-            value={currentPreset.id}
-            onChange={(e) => {
-              const selected = PRESETS.find((p) => p.id === e.target.value);
-              if (selected) setPreset(selected);
-            }}
-            className="px-3 py-1.5 rounded-lg glass-panel border border-white/10 text-xs font-mono text-white bg-canvas-elevated focus:outline-none focus:border-accent-cyan cursor-pointer"
-          >
-            {PRESETS.map((p) => (
-              <option key={p.id} value={p.id} className="bg-canvas-dark text-white">
-                {p.name} ({p.categoryLabel})
-              </option>
-            ))}
-          </select>
-          <Badge variant="cyan">{currentPreset.categoryLabel}</Badge>
+        {/* Preset Selector Dropdown & Mode Switcher */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-1.5 p-1 rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)]">
+            <button
+              type="button"
+              onClick={() => {
+                const solar = PRESETS.find((p) => p.id === "solar-system");
+                if (solar) setPreset(solar);
+              }}
+              className={`px-3 py-1 rounded-lg text-xs font-mono font-medium transition-all ${
+                currentPreset.id === "solar-system"
+                  ? "border border-cyan-400 bg-cyan-950/80 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.3)]"
+                  : "text-[var(--muted)] hover:text-[var(--foreground)]"
+              }`}
+            >
+              🪐 Solar System Explorer
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const torus = PRESETS.find((p) => p.id === "torus-quantum") || PRESETS[1];
+                if (torus) setPreset(torus);
+              }}
+              className={`px-3 py-1 rounded-lg text-xs font-mono font-medium transition-all ${
+                currentPreset.id !== "solar-system"
+                  ? "border border-violet-500 bg-violet-950/80 text-violet-300 shadow-[0_0_10px_rgba(139,92,246,0.3)]"
+                  : "text-[var(--muted)] hover:text-[var(--foreground)]"
+              }`}
+            >
+              🔬 Animation Labs
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <label htmlFor="preset-select" className="text-xs font-mono uppercase text-[var(--muted)]">
+              Lab:
+            </label>
+            <select
+              id="preset-select"
+              value={currentPreset.id}
+              onChange={(e) => {
+                const selected = PRESETS.find((p) => p.id === e.target.value);
+                if (selected) setPreset(selected);
+              }}
+              className="px-3 py-1.5 rounded-lg glass-panel border border-[var(--border)] text-xs font-mono text-[var(--foreground)] bg-[var(--surface-elevated)] focus:outline-none focus:border-accent-cyan cursor-pointer"
+            >
+              {PRESETS.map((p) => (
+                <option key={p.id} value={p.id} className="bg-[var(--surface)] text-[var(--foreground)]">
+                  {p.name} ({p.categoryLabel})
+                </option>
+              ))}
+            </select>
+            <Badge variant="cyan">{currentPreset.categoryLabel}</Badge>
+          </div>
         </div>
 
         {/* Global Playback & Reset Actions */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="px-3.5 py-1.5 rounded-lg glass-button text-xs font-mono text-white flex items-center gap-1.5 hover:border-accent-cyan transition-all"
+            className="px-3.5 py-1.5 rounded-lg glass-button text-xs font-mono text-[var(--foreground)] flex items-center gap-1.5 hover:border-accent-cyan transition-all"
             title={isPlaying ? "Pause simulation" : "Play simulation"}
           >
             {isPlaying ? (
@@ -112,7 +146,7 @@ function PlaygroundContent() {
               </>
             ) : (
               <>
-                <Play className="w-3.5 h-3.5 text-emerald-400" />
+                <Play className="w-3.5 h-3.5 text-emerald-500" />
                 <span>Play</span>
               </>
             )}
@@ -120,7 +154,7 @@ function PlaygroundContent() {
 
           <button
             onClick={resetConfig}
-            className="px-3 py-1.5 rounded-lg glass-button text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg glass-button text-xs font-mono text-[var(--foreground)] flex items-center gap-1.5"
             title="Reset settings to factory defaults"
           >
             <RotateCcw className="w-3.5 h-3.5 text-accent-pink" />
@@ -129,7 +163,7 @@ function PlaygroundContent() {
 
           <button
             onClick={handleExportConfig}
-            className="px-3 py-1.5 rounded-lg glass-button text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg glass-button text-xs font-mono text-[var(--foreground)] flex items-center gap-1.5"
             title="Export JSON Configuration"
           >
             <Download className="w-3.5 h-3.5 text-accent-violet" />
@@ -138,13 +172,13 @@ function PlaygroundContent() {
 
           <button
             onClick={handleShare}
-            className="px-3 py-1.5 rounded-lg glass-button text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg glass-button text-xs font-mono text-[var(--foreground)] flex items-center gap-1.5"
             title="Share Configuration Link"
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="text-emerald-400">Copied</span>
+                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                <span className="text-emerald-500">Copied</span>
               </>
             ) : (
               <>
@@ -156,7 +190,7 @@ function PlaygroundContent() {
 
           <button
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-1.5 rounded-lg glass-button text-slate-300 hover:text-white"
+            className="p-1.5 rounded-lg glass-button text-[var(--foreground)]"
             title="Toggle Fullscreen"
           >
             {isFullscreen ? (
@@ -169,10 +203,14 @@ function PlaygroundContent() {
       </div>
 
       {/* Main Interactive Studio Body */}
-      <div className="flex-1 relative flex flex-col lg:flex-row overflow-hidden">
-        
-        {/* Center: 3D Viewport Canvas */}
-        <div className="flex-1 relative min-h-[450px] lg:min-h-0 bg-canvas-dark flex items-center justify-center">
+      {currentPreset.id === "solar-system" ? (
+        <div className="flex-1 p-2 sm:p-4 bg-[#030712] flex flex-col">
+          <SolarSystemExplorer />
+        </div>
+      ) : (
+        <div className="flex-1 relative flex flex-col lg:flex-row overflow-hidden">
+          {/* Center: 3D Viewport Canvas */}
+          <div className="flex-1 relative min-h-[450px] lg:min-h-0 bg-canvas-dark flex items-center justify-center">
           
           <DynamicSceneCanvas
             presetId={currentPreset.id}
@@ -185,28 +223,28 @@ function PlaygroundContent() {
 
           {/* Floating Viewport HUD stats (bottom left) */}
           <div className="absolute bottom-6 left-6 z-10 pointer-events-none flex flex-col gap-2 font-mono text-xs">
-            <div className="px-3 py-1.5 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 text-slate-300 flex items-center gap-3">
-              <span className="flex items-center gap-1.5 text-emerald-400">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <div className="px-3 py-1.5 rounded-lg bg-[var(--card-bg)] backdrop-blur-md border border-[var(--border)] text-[var(--foreground)] flex items-center gap-3">
+              <span className="flex items-center gap-1.5 text-emerald-500">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 60 FPS
               </span>
-              <span className="text-slate-500">|</span>
+              <span className="text-[var(--muted)]">|</span>
               <span>Points: {config.particleCount}</span>
-              <span className="text-slate-500">|</span>
+              <span className="text-[var(--muted)]">|</span>
               <span>Scale: {config.scale.toFixed(1)}x</span>
             </div>
 
-            <div className="px-3 py-1 rounded bg-black/40 backdrop-blur-sm text-[11px] text-slate-400">
+            <div className="px-3 py-1 rounded bg-[var(--card-bg)] backdrop-blur-sm text-[11px] text-[var(--muted)] border border-[var(--border)]">
               {currentPreset.instructions}
             </div>
           </div>
         </div>
 
         {/* Right Floating Control Inspector Panel */}
-        <aside className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-white/10 bg-canvas-surface/80 backdrop-blur-xl flex flex-col z-20">
+        <aside className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-xl flex flex-col z-20">
           
           {/* Tabs Navigation */}
-          <div className="grid grid-cols-4 border-b border-white/10 text-xs font-mono">
+          <div className="grid grid-cols-4 border-b border-[var(--border)] text-xs font-mono">
             {[
               { id: "geometry", label: "Mesh", icon: Layers },
               { id: "particles", label: "Physics", icon: Sparkles },
@@ -225,8 +263,8 @@ function PlaygroundContent() {
                   }
                   className={`py-3 flex flex-col items-center gap-1 transition-all ${
                     isActive
-                      ? "text-accent-cyan border-b-2 border-accent-cyan bg-white/5"
-                      : "text-slate-400 hover:text-white hover:bg-white/[0.02]"
+                      ? "text-accent-cyan border-b-2 border-accent-cyan bg-accent-cyan/10"
+                      : "text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-black/5"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -243,7 +281,7 @@ function PlaygroundContent() {
             {activeTab === "geometry" && (
               <div className="space-y-5">
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1.5">
+                  <div className="flex justify-between text-[var(--foreground)] mb-1.5">
                     <span>Mesh Scale</span>
                     <span className="text-accent-cyan">{config.scale.toFixed(2)}x</span>
                   </div>
@@ -259,7 +297,7 @@ function PlaygroundContent() {
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1.5">
+                  <div className="flex justify-between text-[var(--foreground)] mb-1.5">
                     <span>Rotation Velocity</span>
                     <span className="text-accent-cyan">{config.rotationSpeed.toFixed(2)}x</span>
                   </div>
@@ -275,7 +313,7 @@ function PlaygroundContent() {
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1.5">
+                  <div className="flex justify-between text-[var(--foreground)] mb-1.5">
                     <span>Animation Speed</span>
                     <span className="text-accent-cyan">{config.speed.toFixed(2)}x</span>
                   </div>
@@ -291,7 +329,7 @@ function PlaygroundContent() {
                 </div>
 
                 <div className="pt-2 border-t border-white/5 space-y-4">
-                  <div className="flex justify-between text-slate-300 mb-1.5">
+                  <div className="flex justify-between text-[var(--foreground)] mb-1.5">
                     <span>Roughness</span>
                     <span className="text-accent-cyan">{config.roughness.toFixed(2)}</span>
                   </div>
@@ -305,7 +343,7 @@ function PlaygroundContent() {
                     className="w-full accent-accent-cyan cursor-pointer"
                   />
 
-                  <div className="flex justify-between text-slate-300 mb-1.5">
+                  <div className="flex justify-between text-[var(--foreground)] mb-1.5">
                     <span>Metalness</span>
                     <span className="text-accent-cyan">{config.metalness.toFixed(2)}</span>
                   </div>
@@ -320,7 +358,7 @@ function PlaygroundContent() {
                   />
 
                   <div className="flex items-center justify-between pt-2">
-                    <span className="text-slate-300">Wireframe Mesh</span>
+                    <span className="text-[var(--foreground)]">Wireframe Mesh</span>
                     <button
                       onClick={() => updateConfig({ wireframe: !config.wireframe })}
                       className={`px-3 py-1 rounded text-xs transition-colors ${
@@ -340,7 +378,7 @@ function PlaygroundContent() {
             {activeTab === "particles" && (
               <div className="space-y-5">
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1.5">
+                  <div className="flex justify-between text-[var(--foreground)] mb-1.5">
                     <span>Particle Density</span>
                     <span className="text-accent-cyan">{config.particleCount}</span>
                   </div>
@@ -356,7 +394,7 @@ function PlaygroundContent() {
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1.5">
+                  <div className="flex justify-between text-[var(--foreground)] mb-1.5">
                     <span>Harmonic Distortion</span>
                     <span className="text-accent-cyan">{config.distortion.toFixed(2)}</span>
                   </div>
@@ -372,7 +410,7 @@ function PlaygroundContent() {
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1.5">
+                  <div className="flex justify-between text-[var(--foreground)] mb-1.5">
                     <span>Force Intensity</span>
                     <span className="text-accent-cyan">{config.intensity.toFixed(2)}</span>
                   </div>
@@ -393,7 +431,7 @@ function PlaygroundContent() {
             {activeTab === "lighting" && (
               <div className="space-y-5">
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1.5">
+                  <div className="flex justify-between text-[var(--foreground)] mb-1.5">
                     <span>Lighting Brightness</span>
                     <span className="text-accent-cyan">{config.lightIntensity.toFixed(2)}</span>
                   </div>
@@ -410,7 +448,7 @@ function PlaygroundContent() {
 
                 <div className="pt-2 border-t border-white/5 space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-300">Primary Color</span>
+                    <span className="text-[var(--foreground)]">Primary Color</span>
                     <div className="flex items-center gap-2">
                       <input
                         type="color"
@@ -423,7 +461,7 @@ function PlaygroundContent() {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-300">Secondary Accent</span>
+                    <span className="text-[var(--foreground)]">Secondary Accent</span>
                     <div className="flex items-center gap-2">
                       <input
                         type="color"
@@ -436,7 +474,7 @@ function PlaygroundContent() {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-300">Highlight Tint</span>
+                    <span className="text-[var(--foreground)]">Highlight Tint</span>
                     <div className="flex items-center gap-2">
                       <input
                         type="color"
@@ -455,7 +493,7 @@ function PlaygroundContent() {
             {activeTab === "camera" && (
               <div className="space-y-5">
                 <div>
-                  <div className="flex justify-between text-slate-300 mb-1.5">
+                  <div className="flex justify-between text-[var(--foreground)] mb-1.5">
                     <span>Field of View (FOV)</span>
                     <span className="text-accent-cyan">{config.cameraFov}°</span>
                   </div>
@@ -470,8 +508,8 @@ function PlaygroundContent() {
                   />
                 </div>
 
-                <div className="p-3 rounded-lg bg-white/[0.03] border border-white/5 space-y-2 text-slate-400">
-                  <p className="font-semibold text-white">Camera Shortcuts:</p>
+                <div className="p-3 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border)] space-y-2 text-[var(--muted)]">
+                  <p className="font-semibold text-[var(--foreground)]">Camera Shortcuts:</p>
                   <p>• Left-click drag to orbit camera around target</p>
                   <p>• Scroll wheel to zoom in / out</p>
                   <p>• Double-click to reset angle</p>
@@ -483,6 +521,7 @@ function PlaygroundContent() {
         </aside>
 
       </div>
+      )}
     </div>
   );
 }

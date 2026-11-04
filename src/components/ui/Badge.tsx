@@ -13,7 +13,7 @@ export function Badge({ children, variant = "violet", className }: BadgeProps) {
     cyan: "bg-accent-cyan/15 text-accent-cyan border-accent-cyan/30",
     pink: "bg-accent-pink/15 text-accent-pink border-accent-pink/30",
     emerald: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
-    outline: "bg-white/5 text-slate-300 border-white/10",
+    outline: "bg-[var(--glass-fill)] text-[var(--foreground)] border-[var(--border)]",
   };
 
   return (
